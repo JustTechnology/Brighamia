@@ -1,0 +1,140 @@
+<ion-header>
+	<ion-navbar>
+		<div style="display:flex;align-items: center;">
+			<img style="margin-left:10px;float:left;width:32px;height:32px;" src="assets/images/background/App66_logo2.png">
+			<ion-title><p style="font-weight:bold">Servicetyp</p></ion-title>
+			<ion-buttons end>
+				<button *ngIf="this.m_CARWAY_Model_Service_Struct.m_bDeletable" ion-button icon-only style="padding-right:5px"  (click)="onClickDeleteServiceStruct()">
+					<ion-icon name="trash"></ion-icon>
+				</button>
+								
+				<button *ngIf="this.m_nServiceStructIndex>=0" ion-button icon-only style="padding-right:5px"  (click)="onClickClose()">
+					<ion-icon name="close"></ion-icon>
+				</button>
+				
+				<button ion-button icon-only style="padding-right:5px"  (click)="onClickSave()">
+					<ion-icon name="checkmark"></ion-icon>
+				</button>
+			</ion-buttons> 
+		</div>
+	</ion-navbar>
+</ion-header>
+			
+		
+<ion-fab #fab bottom right style="color:fcd736!important;padding-bottom:10px;" >
+	<button button-ion-fab ion-fab (click)="onClickFab()">
+		<ion-icon name="add"></ion-icon>
+	</button>
+		
+	<ion-fab-list side="top">
+		<button ion-fab class="fab-list" (click)="onClickAddBeschreibung()">
+				<ion-icon icon-small color="secondary"  name="quote"></ion-icon>
+				<ion-label style="background-color: #424242;">Kommentar</ion-label>
+		</button>
+		<button ion-fab class="fab-list" (click)="onClickAddAuswahl()">
+			<ion-icon icon-small color="secondary"  name="list"></ion-icon>
+			<ion-label style="background-color: #424242;">Auswahl</ion-label>
+		</button>
+		<button ion-fab class="fab-list" (click)="onClickAddZeit()">
+			<ion-icon  icon-small color="secondary"  name="clock"></ion-icon>
+			<ion-label style="background-color: #424242;">Zeit</ion-label>
+		</button>
+		<button ion-fab class="fab-list" (click)="onClickAddKosten()">
+			<ion-icon icon-small color="secondary" name="logo-euro"></ion-icon>
+			<ion-label style="background-color: #424242;">Kosten</ion-label>
+		</button>
+		<button ion-fab class="fab-list" (click)="onClickAddOrt()">
+			<ion-icon icon-small color="secondary" name="map" ></ion-icon>
+			<ion-label style="background-color: #424242;">Ort</ion-label>
+		</button>
+	</ion-fab-list>
+</ion-fab>
+	
+<ion-content>
+	<div *ngIf="this.m_CARWAY_Model_Service_Struct">
+		<ion-grid >
+			<ion-row>
+				<ion-col col-10 >
+					<ion-item no-paddng no-margin style="background-color:#424242">
+						<ion-label style="color:#FCD736;width:100%;" stacked>Bezeichnung des Services:</ion-label>
+						<ion-input class="plain-text" placeholder="Eigener Service" required type="text" [(ngModel)]="this.m_CARWAY_Model_Service_Struct.m_ServiceStructTitle"></ion-input>
+					</ion-item>
+				</ion-col>	<!--<p no-margin style="padding: 10px 0px 0px 0px;color:#424242 !important;font-size:x-large;font-weight:bold;text-transform: uppercase;">Servicetyp</p>-->
+				<ion-col col-2 text-left style="display:flex;justify-content:center;align-items:center">
+					<ion-icon style="font-size:28px;" color="secondary" name="color-fill"></ion-icon>	
+				</ion-col>
+			</ion-row>
+
+			<div *ngIf="this.m_CARWAY_Model_Service_Struct.m_ArrayCarwayModelServiceStructItem" class="separator-small" style="background-color:rgba(114,114,114)"></div>
+
+			<!--Content-->
+			<ion-row>
+				<ion-col no-padding no-margin col-12>
+					<ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+						<ion-item style="background-color:#424242;" *ngFor="let aCARWAY_Model_Service_Struct_Item of this.m_CARWAY_Model_Service_Struct.m_ArrayCarwayModelServiceStructItem; let indexService = index;">
+							<div style="border:1px solid #999999;padding:8px;">
+							<ion-row style="margin-bottom:10px;">
+								<ion-col col-12 style="display:flex;justify-content:left;text-align: left">
+									<ion-icon no-margin style="padding-right:10px!important;" name="chatbubbles" color="secondary"></ion-icon>
+									<h2 *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type==MyCARWAY_WIZARD_OBJECT.TEXT" item-title>Baustein Text</h2>
+									<h2 *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type==MyCARWAY_WIZARD_OBJECT.COSTS" item-title>Baustein Kosten</h2>
+									<h2 *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type==MyCARWAY_WIZARD_OBJECT.LOCATION" item-title>Baustein Standort</h2>
+									<h2 *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type==MyCARWAY_WIZARD_OBJECT.TIME" item-title>Baustein Zeit</h2>
+									<h2 *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type==MyCARWAY_WIZARD_OBJECT.SELECT" item-title>Baustein Auswahltexte</h2>
+								</ion-col>
+							</ion-row>	
+							<ion-row style="padding: 5px 0px 5px 0px">
+								<p no-padding  style="font-size:x-small;color:#FCD736!important">Titel des Bausteins:</p>
+								<textarea rows="2" style="width:100%;border:none;background:none;color:#FCD736" placeholder="z.B. Werkstattbesuch" no-padding [(ngModel)]="aCARWAY_Model_Service_Struct_Item.m_ServiceStructTitle"></textarea>
+							</ion-row>
+							
+							<!--<ion-row style="padding: 5px 0px 5px 0px">
+								<p no-padding style="font-size:x-small;color:#FCD736!important">Abfrage-Text:</p>
+								<textarea rows="2" style="width:100%;border:none;background: none;color:#FCD736" placeholder="z.B. Wieso bist du in die Werkstatt gefahren?" no-padding [(ngModel)]="aCARWAY_Model_Service_Struct_Item.m_ServiceStructText"></textarea>
+							</ion-row>
+							-->
+							<ion-row *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type != MyCARWAY_WIZARD_OBJECT.TIME && aCARWAY_Model_Service_Struct_Item.m_Type != MyCARWAY_WIZARD_OBJECT.SELECT" style="padding: 5px 0px 5px 0px">
+								<p no-padding style="font-size:x-small;color:#FCD736!important">Beispiel:</p>
+								<textarea rows="2" style="width:100%;border:none;background: none;color:#FCD736" placeholder="z.B. Reguläre Inspektion" no-padding [(ngModel)]="aCARWAY_Model_Service_Struct_Item.m_ServiceStructText"></textarea>
+							</ion-row>
+
+							<ion-row *ngIf="aCARWAY_Model_Service_Struct_Item.m_Type == MyCARWAY_WIZARD_OBJECT.SELECT" style="padding: 5px 0px 5px 0px">
+								<p no-padding style="font-size:x-small;color:#FCD736!important">Antwort-Texte (Komma-getrennt):</p>
+								<textarea rows="2" style="width:100%;border:none;background: none;color:#FCD736" placeholder="Erledigt, Nachfassen, ..." no-padding [(ngModel)]="aCARWAY_Model_Service_Struct_Item.m_ServiceStructText"></textarea>
+							</ion-row>
+							<!---
+								<ion-label stacked>Test:{{aCARWAY_Model_Service_Item.m_Type}}</ion-label>
+								<input no-padding >{{aCARWAY_Model_Service_Item.m_sText}}
+								
+								-->
+								<ion-row>
+									<ion-col col-12 no-padding no-margin>
+										<button ion-fab class="fab-toolbar" style="float:right!important;" (click)="onClickDeleteService(indexService)">
+											<ion-icon style="font-size:16px;color:#fcd736" name="trash" ></ion-icon>
+										</button>
+									</ion-col>
+								</ion-row>
+							</div>
+							</ion-item>
+					</ion-list>
+				</ion-col>
+			</ion-row>
+
+
+			<!--		
+			<ion-row>
+				<ion-col col-12>
+					<ion-select  tabindex="1" style="font-weight:bold; width:100%;min-width:100%;color:#FCD736;" [(ngModel)]="this.m_sSelectecType">
+						<ion-option value="Beschreibung">Beschreibung</ion-option>		
+						<ion-option value="Ort">Ort</ion-option>		
+						<ion-option value="Zeit">Zeit</ion-option>		
+						<ion-option value="Kosten">Kosten</ion-option>		
+					</ion-select>
+				</ion-col>
+			</ion-row>
+			-->	
+		</ion-grid>
+	</div>
+		
+</ion-content>
+

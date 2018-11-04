@@ -1,0 +1,56 @@
+<ion-header>
+	<ion-navbar>
+    	<div style="display:flex;align-items: center;">
+      		<img style="margin-left:10px;float:left;width:32px;height:32px;" src="assets/images/background/App66_logo2.png">
+      			<ion-title><p style="font-weight:bold">Ihre Flotte</p></ion-title>
+				  <ion-buttons  end>
+					<button ion-button icon-only style="padding-left:5px;padding-right:5px"  (click)="clickedSave()">
+					<ion-icon name="checkmark"></ion-icon>
+				</button>
+				</ion-buttons>
+      </div>
+  	</ion-navbar>
+</ion-header>
+
+<ion-fab #fab bottom right style="color:fcd736!important;padding-bottom:10px;" >
+	<button button-ion-fab ion-fab (click)="onClickFab()">
+		<ion-icon name="add"></ion-icon>
+	</button>
+</ion-fab>  
+
+<ion-content has-header>
+
+	<ion-grid *ngIf="this.m_CARWAY_Model_Car_Provider.m_CARWAY_Model_Pool" style="background-color: #424242" no-padding>
+		<ion-row>
+			<ion-col col-12>
+				<ion-list no-margin>
+			  		<ul no-margin no-padding class="collapsible">
+						<li *ngFor="let sFlotte of this.m_CARWAY_Model_Car_Provider.m_CARWAY_Model_Car.m_sArrayFlotte;">
+				  
+							<!-- List big image Header -->
+							<div class="collapsible-header" style="background-color: #424242" (click)="toggleGroup(group)">
+								<div padding-left padding-right style="height:30px;display:flex;justify-content: center;align-items: center;background-color: rgba(221, 221, 221,0.2)">
+									<ion-icon icon-small no-margin color="#fcd736" name="add" (click)="add(-1)"></ion-icon>
+									<h3 padding-left item-title>A{{sSignsPool}}</h3>
+								</div>
+							</div>
+						
+							<!-- List big image Body -->
+							<div class="item-accordion" [ngClass]="{'active': isGroupShown(group) }" [hidden]="!isGroupShown(group)">
+								<ion-item transparent no-lines *ngFor="let item of group.items;" (click)="onEvent('onItemClick', item.title, $event)">
+									<ion-thumbnail item-start>
+										<img [src]="item.image" alt="{{item.title}}" />
+									</ion-thumbnail>
+									<h2 subitem-title>B{{sSignsPool}}</h2>
+									<h3 subitem-subtitle>Irgendwas</h3>
+									<ion-icon name="trash" item-end icon-medium></ion-icon>
+								</ion-item>
+							</div>
+						</li>
+			  		</ul>
+				</ion-list>
+		  	</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

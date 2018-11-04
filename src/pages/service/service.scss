@@ -1,0 +1,67 @@
+page-service 
+{  
+    .fab 
+    {
+    contain: layout;
+}
+button[ion-fab] {
+    overflow: visible;
+    position: relative;
+    
+    ion-label {
+        position: absolute;
+        top: -12px;
+        right: 40px;
+        color: #fcd736;
+        line-height: 24px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #424242;
+    }
+}
+
+.routingToolbar 
+{
+    height: $var-title-height;
+    background-color:rgba(221, 221, 221,0.7);
+    padding-top:5px;
+}
+
+
+
+    ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color:#707070 !important;
+      }
+    
+      ::-moz-placeholder {
+        /* Firefox 19+ */
+        color:  #707070 !important;
+      }
+    
+      :-ms-input-placeholder {
+        /* IE 10+ */
+        color:  #707070 !important;
+      }
+      
+    [header-bcg] 
+    {
+        z-index: 1;
+        align-items: center;
+      
+        [span-medium] {
+            color: theme-colors('mainColors', 'primary') !important;
+            font-size: $h1-font-size;
+        }
+        [header-title] 
+        {
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
+    }
+   
+   
+
+   
+}
+

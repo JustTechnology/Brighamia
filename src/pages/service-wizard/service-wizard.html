@@ -1,0 +1,264 @@
+<ion-content class="main-view">
+	
+    <div class="overlay" (click)="onClickDismiss()"></div>
+      
+    <div class="modal_content">
+      
+    	<ion-header>
+        	<ion-navbar>
+          		<ion-title><p style="font-weight:bold">{{this.m_CARWAY_Model_Service.m_sTitle}}</p></ion-title>
+          
+          		<ion-buttons *ngIf="this.m_CARWAY_EDIT_TYPE == MyCARWAY_EDIT_TYPE.WIZARD || this.m_CARWAY_EDIT_TYPE == MyCARWAY_EDIT_TYPE.NEW" end>
+					<button *ngIf="this.m_nModelServiceItemIndex>0"  ion-button icon-only style="padding-right:5px"  (click)="onClickPrev()">
+						<ion-icon name="arrow-back"></ion-icon>
+					</button>
+					<button *ngIf="this.m_nModelServiceItemIndex<this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item.length-1" ion-button icon-only style="padding-left:5px;padding-right:5px" (click)="onClickNext()">
+						<ion-icon name="arrow-forward"></ion-icon>
+					</button>
+					<button *ngIf="this.m_nModelServiceItemIndex==this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item.length-1" ion-button icon-only style="padding-left:5px;padding-right:5px"  (click)="onClickSave()">
+						<ion-icon name="checkmark"></ion-icon>
+					</button>
+				</ion-buttons> 
+        	</ion-navbar>
+      	</ion-header>
+  
+    	<div class="separator-large" style="padding-top:60px;"></div>
+  
+		<!-- POSITION -->
+		<ion-row class="item-data" *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" style="background-color:rgba(93,93,93);height:36px;display:flex;align-items: center;">
+			<ion-label no-margin class="plain-text" stacked style="float:left;padding:0px 0px 0px 10px;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTitle}}</ion-label>
+			<ion-icon icon-small item-end name="home" color="secondary" style="padding:0px 10px 0px 10px;float:right;" (click)="clickedHome()" ></ion-icon>
+			<ion-icon *ngIf="this.m_bGPSInstalled && !this.m_bLocating" icon-small item-end name="locate" color="secondary" style="padding:0px 10px 0px 10px;float:right;" (click)="clickedLoadCurrentLocation()"></ion-icon>
+			<img *ngIf="this.m_bLocating" src="assets/svg/ball-triangle.svg" style="height:36px;width:36px;float:right;padding:0px 10px 0px 10px"/>
+		</ion-row>
+		
+		<ion-row *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" style="background-color:rgba(93,93,93);margin:0px 10px 0px 10px;">
+			<ion-input [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholder"  style="color: #CCCCCC; padding:0px 5px 0px 5px;border:none;background-color:rgba(114,114,114)" type="text" tabindex="1" name="One" [(ngModel)]="query" (ionChange)="searchPlace()"></ion-input>
+		</ion-row>
+		
+		<ion-row *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION">
+			<ion-list  style="position: absolute;z-index: 1;">
+				<ion-item *ngFor="let place of places" (click)="itemclicked($event)" (touchstart)="selectPlace(place,$event)">{{place.description}}</ion-item>
+			</ion-list>
+		</ion-row>
+		
+		<ion-row [hidden]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type != MyCARWAY_WIZARD_OBJECT.LOCATION" style="background-color:rgba(93,93,93);margin:0px 20px 0px 20px;padding: 5px 0px 5px 0px; ">
+			<!-- MAP -->
+			<div  [hidden]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type != MyCARWAY_WIZARD_OBJECT.LOCATION || this.m_bRetrievingLocation" style="margin:10px; height:180px;width:100%;border-radius: 12px;" id="map2"></div>
+			<div *ngIf="this.m_bRetrievingLocation" style="margin:10px; height:220px;width:100%;border-radius: 12px;display: flex;align-items: center;justify-content: center;z-index:auto;">
+				<img src="assets/svg/ball-triangle.svg" style="height:36px;width:36px;float:right;padding:0px 10px 0px 10px"/>
+			</div>
+			<!-- /MAP -->
+		</ion-row>
+		
+		<ion-row *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" style="height:75px;background-color:rgba(114,114,114);margin:0px 10px 0px 10px;">
+			<ion-textarea *ngIf="!this.m_bRetrievingLocation" text-center rows="4" class="plain-text" stacked style="border:none;background-color:rgba(114,114,114);float:left;padding:0px 0px 0px 10px;font-weight: bold" [ngModel]="this.m_bindFormattedAdress | longAddress"></ion-textarea>
+			<ion-textarea *ngIf="this.m_bRetrievingLocation" text-center readonly rows="4" class="plain-text" stacked style="border:none;background-color:rgba(114,114,114);float:left;padding:0px 0px 0px 10px;"></ion-textarea>
+			
+			<ion-icon *ngIf="!this.m_bRetrievingLocation && this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" item-end name="checkmark" color="secondary" style="float:right;align-self: flex-end;padding:0px 10px 2px 0px;"></ion-icon>
+		</ion-row>
+
+		<ion-row *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" class="item-data">
+			<div style="height:38px;background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+				<div *ngFor="let picture of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_ArrayPictures;let nIndexPicture = index;">
+					<div class="plain-text" style="float:left;padding:5px;">
+						<div class="plain-circle" style="display: flex;align-items: center;justify-content: center;font-weight: bold;" (click)="onClickOpenPicture(nIndexPicture)">
+							{{nIndexPicture+1}}
+						</div>
+					</div>
+				</div>  
+				<ion-icon icon-small item-end name="attach" color="secondary" style="float:right;padding:5px 10px 5px 10px;" (click)="onClickAttach()"></ion-icon>
+				<ion-icon icon-small item-end name="camera" color="secondary" style="float:right;padding:5px 10px 5px 10px;;" (click)="onClickCamera()"></ion-icon>
+			</div>  
+		</ion-row>
+
+		<ion-row class="item-data" *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" style="background-color:rgba(93,93,93);height:5px;">
+		</ion-row>
+		<!-- /POSITION -->
+
+		<!-- ZEIT -->
+		<div *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.TIME">
+			<ion-row class="item-data" style="background-color:rgba(93,93,93);height:36px;display:flex;align-items: center;">
+				<ion-label no-margin class="plain-text"  stacked style="float:left;padding:0px 0px 0px 10px;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTitle}}</ion-label>
+				<ion-icon icon-small item-end name="time" color="secondary" style="padding:0px 10px 0px 10px;float:right;" (click)="setActTime(this.m_nModelServiceItemIndex)"></ion-icon>
+			</ion-row>
+			<ion-row style="background-color:rgba(114,114,114);margin:0px 10px 0px 10px;" >
+				<ion-input name="Six" style="font-weight: bold" class="plain-text" tabindex="3" required [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholderHour" type="number" text-right [(ngModel)]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTextHour" (keyup)="onKeyUpHour()"></ion-input>
+				<ion-label text-center class="plain-text" style="margin-right:0px;margin-left:0px;width:3px;min-width:3px;max-width:3px;font-weight: bold">:</ion-label>
+				<ion-input #InputMinute style="font-weight: bold" name="Seven" class="plain-text" tabindex="4" required [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholderMinute" type="number" text-left #InputMinute  [(ngModel)]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTextMinute" (keyup)="onKeyUpMinute($event.keyCode)"></ion-input>
+			</ion-row>			
+
+			<ion-row class="item-data">
+				<div style="height:38px;background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+					<div *ngFor="let picture of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_ArrayPictures;let nIndexPicture = index;">
+						<div class="plain-text" style="float:left;padding:5px;">
+							<div class="plain-circle" style="display: flex;align-items: center;justify-content: center;font-weight: bold;" (click)="onClickOpenPicture(nIndexPicture)">
+								{{nIndexPicture+1}}
+							</div>
+						</div>
+					</div>  
+					<ion-icon icon-small item-end name="attach" color="secondary" style="float:right;padding:5px 10px 5px 10px;" (click)="onClickAttach()"></ion-icon>
+					<ion-icon icon-small item-end name="camera" color="secondary" style="float:right;padding:5px 10px 5px 10px;;" (click)="onClickCamera()"></ion-icon>
+				</div>  
+			</ion-row>
+	
+		</div>
+		<!-- /ZEIT -->
+	
+	<!--COSTS-->
+	<div *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.COSTS">
+		<ion-row class="item-data" style="align-items: center; background-color:rgba(200,200,200,0.2);line-height:36px;padding:0px 10px 0px 10px;">
+			<ion-label class="plain-text" no-margin text-left stacked style="float:left;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTitle}}</ion-label>
+			<button ion-fab class="fab-mini" style="background-color: #999999;align-self: center;float:right;">
+				<ion-icon style="font-size:12px;" name="add" (click)="onClickAddCosts()"></ion-icon>
+			</button>
+		</ion-row>	
+
+		<!--ITEM-COSTS Data-->
+		<ion-row *ngFor="let costs of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Array_CARWAY_Model_Service_Item_Costs;let indexCosts = index;" style="background-color:rgba(200,200,200,0.2);margin:0px 10px 0px 10px;">
+			<!--ITEM-COSTS Data:Description-->
+			<ion-col col-7 no-padding>
+				<div class="background-item-article">
+					<ion-label class="titel-article" no-margin stacked text-left>Bezeichnung</ion-label>
+					<ion-row>
+						<ion-input class="plain-text" no-margin style="font-size:14px;padding-left:10px" type="text" tabindex="1+{{indexCosts}}" name="INPUT_ARTICLE_Description_{{indexCosts}}" required  [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholder" [(ngModel)]="costs.m_sText" ></ion-input>
+					</ion-row>
+				</div>
+			</ion-col>
+
+			<!--ITEM-COSTS Data:Amount-->
+			<ion-col col-2 no-padding>
+				<div class="background-item-article">
+					<ion-label class="titel-article" no-margin stacked>Menge</ion-label>
+					<ion-row>
+						<input class="plain-text" min="1" max="99999" pattern="^[0-9]*$" onKeyPress="if(this.value.length>=5) return false;"   size="5" min="1" max="99999" maxlength="5" style="font-size:14px;width:100%;background-color:transparent;border:none;" name="INPUT_Amount_{{indexCosts}}" type="number" tabindex="2+{{indexCosts}}" required placeholder="0"  text-center  [(ngModel)]="costs.m_nAmount" (keyup)="onClickCosts()">
+						</ion-row>
+				</div>
+			</ion-col>
+
+			<!--ITEM-COSTS Data:Price-->
+			<ion-col col-3 no-padding no-margin >
+				<div class="background-item-article" >
+					<ion-label class="titel-article" no-margin stacked>Preis/€</ion-label>
+					<ion-row style="margin-bottom:5px;padding-right:5px;padding-left:5px;" nowrap>
+						<input class="plain-text"  min="1" max="99999" pattern="^[0-9]*$" onKeyPress="if(this.value.length>=5) return false;"  fixed size="5" min="1" max="99" maxlength="5" style="width:100%;font-size:14px;background-color:transparent;border:none;"  type="number" tabindex="3+{{indexCosts}}" name="INPUT_PriceEuro_{{indexCosts}}" required placeholder="0"  text-right [(ngModel)]="costs.m_oPrice.m_sEuro" (keyup)="onClickCosts()">
+						<ion-label no-padding no-margin class="plain-text" text-center style="width:8px;min-width:8px;max-width:8px;">,</ion-label>
+						<input class="plain-text"  min="1" max="99" pattern="^[0-9]*$" onKeyPress="if(this.value.length>=2) return false;" fixed  size="2" maxlength="2" style="width:100%;font-size:14px;background-color:transparent;border:none;" name="INPUT_PriceCent_{{indexCosts}}" type="number" tabindex="4+{{indexCosts}}" required placeholder="00"  text-left [(ngModel)]="costs.m_oPrice.m_sCent" (keyup)="onClickCosts()">
+					</ion-row>
+				</div>
+			</ion-col>
+		</ion-row>
+
+	<ion-row style="align-items: center; background-color:rgba(114,114,114);line-height:32px;margin:0px 10px 0px 10px;padding: 5px 0px 10px 0px;">
+		<ion-label class="plain-text" no-margin text-left stacked style="padding-left:10px;background-color: rgba(200,200,200,0.2);float:left;">Gesamt</ion-label>
+		<ion-label class="plain-text" no-margin text-right stacked style="padding-right:10px;background-color: rgba(200,200,200,0.2);float:right;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_oTotal.m_sEuro}},{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_oTotal.m_sCent}} €</ion-label>
+	</ion-row>
+
+	<ion-row class="item-data">
+		<div style="height:38px;background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+			<div *ngFor="let picture of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_ArrayPictures;let nIndexPicture = index;">
+				<div class="plain-text" style="float:left;padding:5px;">
+					<div class="plain-circle" style="display: flex;align-items: center;justify-content: center;font-weight: bold;" (click)="onClickOpenPicture(nIndexPicture)">
+						{{nIndexPicture+1}}
+					</div>
+				</div>
+			</div>  
+			<ion-icon icon-small item-end name="attach" color="secondary" style="float:right;padding:5px 10px 5px 10px;" (click)="onClickAttach()"></ion-icon>
+			<ion-icon icon-small item-end name="camera" color="secondary" style="float:right;padding:5px 10px 5px 10px;;" (click)="onClickCamera()"></ion-icon>
+		</div>  
+	</ion-row>
+
+
+	</div>
+					
+	<!-- TEXT -->
+	<div *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.TEXT">
+		<ion-row class="item-data" style="background-color:rgba(200,200,200,0.2);height:36px;">
+			<ion-label no-margin class="plain-text" stacked style="padding:10px;display:flex!important;align-content:center;align-items: center;float:left;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTitle}}</ion-label>
+		</ion-row>
+	
+		<ion-row style="background-color:rgba(114,114,114);margin:0px 10px 0px 10px;padding:10px;">
+			<ion-textarea style= "font-weight:bold;border:none;background-color:rgba(114,114,114);float:left;" no-margin [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholder" class="plain-text" rows="5" style="border:none; width:100%!important;" type="text" tabindex="1" name="One" [(ngModel)]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sText"></ion-textarea>
+		</ion-row>
+		
+		<ion-row class="item-data">
+			<div style="height:38px;background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+				<div *ngFor="let picture of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_ArrayPictures;let nIndexPicture = index;">
+					<div class="plain-text" style="float:left;padding:5px;">
+						<div class="plain-circle" style="display: flex;align-items: center;justify-content: center;font-weight: bold;" (click)="onClickOpenPicture(nIndexPicture)">
+							{{nIndexPicture+1}}
+						</div>
+					</div>
+				</div>  
+				<ion-icon icon-small item-end name="attach" color="secondary" style="float:right;padding:5px 10px 5px 10px;" (click)="onClickAttach()"></ion-icon>
+				<ion-icon icon-small item-end name="camera" color="secondary" style="float:right;padding:5px 10px 5px 10px;;" (click)="onClickCamera()"></ion-icon>
+			</div>  
+		</ion-row>
+
+
+	</div>
+	<!-- /TEXT -->
+      
+	<!-- SELECT -->
+	<div *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.SELECT" >
+			<ion-row class="item-data" style="background-color:rgba(200,200,200,0.2);height:36px;">
+					<ion-label no-margin class="plain-text" stacked style="padding:10px 10px 10px 10px;display:flex!important;align-content:center;align-items: center;float:left;">{{this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sTitle}}</ion-label>
+		</ion-row>
+	
+		<ion-row style="background-color:rgba(114,114,114);margin:0px 10px 0px 10px;padding:0px 5px 0px 5px">
+				<ion-select  [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholder" name="Eight" tabindex="8" style="font-weight:bold;width:100%;min-width:100%;color:#FCD736;" [(ngModel)]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sText">
+				<ion-option  *ngFor="let text of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sArrayText" value="{{text}}">{{text}}</ion-option>		
+				</ion-select>
+		</ion-row>
+		<ion-row class="item-data">
+			<div style="height:38px;background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+				<div *ngFor="let picture of this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_ArrayPictures;let nIndexPicture = index;">
+					<div class="plain-text" style="float:left;padding:5px;">
+						<div class="plain-circle" style="display: flex;align-items: center;justify-content: center;font-weight: bold;" (click)="onClickOpenPicture(nIndexPicture)">
+							{{nIndexPicture+1}}
+						</div>
+					</div>
+				</div>  
+				<ion-icon icon-small item-end name="attach" color="secondary" style="float:right;padding:5px 10px 5px 10px;" (click)="onClickAttach()"></ion-icon>
+				<ion-icon icon-small item-end name="camera" color="secondary" style="float:right;padding:5px 10px 5px 10px;;" (click)="onClickCamera()"></ion-icon>
+			</div>  
+		</ion-row>
+
+
+	</div>
+	<!-- /SELECT -->
+		
+		<!--LOCATION 
+		<div *ngIf="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" >
+			<ion-row style="background-color:rgba(200,200,200,0.2);">
+				<ion-label no-margin class="plain-text" stacked style="padding:10px 10px 10px 10px;display:flex!important;align-content:center;align-items: center;float:left;">{{}}</ion-label>
+				<ion-icon *ngIf="!m_bRetrievingLocation" icon-small item-end name="locate" color="secondary" style="padding:5px 10px 5px 10px;float:right;" (click)="m_bLocating(this.m_nModelServiceItemIndex)"></ion-icon>
+				<img *ngIf="m_bRetrievingLocation" src="assets/svg/ball-triangle.svg" style="height:30px;width:30px;float:right;padding:5px 10px 5px 10px"/>
+			</ion-row>
+      
+      		<ion-row style="background-color:rgba(200,200,200,0.2);">
+			  	<div style="background-color: rgba(200,200,200,0.2);width:100%!important;padding:12px;margin:5px 0px 0px 0px;">
+        			<ion-textarea  no-margin [placeholder]="this.m_CARWAY_Model_Service.m_arrayCARWAY_Model_Service_Item[this.m_nModelServiceItemIndex].m_sPlaceholder" class="plain-text" rows="3" style="border:none; width:100%!important;" type="text" tabindex="1" name="One" [(ngModel)]=""></ion-textarea>
+				</div>  
+			</ion-row>
+			
+			<ion-row >
+				<div style="background-color: rgba(200,200,200,0.2);width:100%!important;padding:3px;">
+					<ion-icon icon-small item-end name="camera" color="secondary" style="padding:0px 10px 0px 10px;float:right;" (click)="onClickAttach(this.m_nModelServiceItemIndex)"></ion-icon>
+					<ion-icon icon-small item-end name="attach" color="secondary" style="padding:0px 10px 0px 10px;float:right;" (click)="onClickAttach(this.m_nModelServiceItemIndex)"></ion-icon>
+				</div>  
+			</ion-row>
+		</div>
+		/LOCATION -->
+		
+				
+		<!--<img *ngIf="this.m_nBindClickedPictureIndex>=0"src="/assets/images/avatar/0.jpg" class="plain-image">-->
+
+		
+		
+		
+	</div>
+
+</ion-content>
+  
+  

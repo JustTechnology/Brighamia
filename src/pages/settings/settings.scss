@@ -1,0 +1,23 @@
+
+
+page-settings 
+{
+    .item-input-has-focus .label-md[floating], .input-has-focus .label-md[floating]{
+        color: #DDDDDD; //label color when focusing
+}
+.item-input .label-md{
+        color: #DDDDDD; //label color
+}
+
+.item-ios{
+    color: #DDDDDD; //floating input label color
+}
+
+    .smallfont{
+        font-size: 0.8em;
+    }
+
+        .verysmallfont{
+            font-size: 0.6em;
+            }
+    }

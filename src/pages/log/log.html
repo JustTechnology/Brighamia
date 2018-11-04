@@ -1,0 +1,15 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Debug-Log</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list no-padding no-margin *ngFor="let log of logs | orderby">
+        <p style="padding-right:2px;padding-left:2px;padding-top:2px;margin:0px;font-size:10px;background-color:#DDDDDD"><b>{{log.datetime}} {{log.origin}}</b></p>
+        <p style="padding-right:2px;padding-left:2px;padding-bottom:2px;;margin:0px;font-size:10px;background-color:#DDDDDD">{{log.message}}</p>
+  </ion-list>
+</ion-content>

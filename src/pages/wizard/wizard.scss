@@ -1,0 +1,121 @@
+page-wizard
+{
+	.footer-button
+    {
+        color:#333333!important;
+	} 
+	
+	.kfz-searchable-select
+	{
+		color:#fcd736;
+		padding-top:0px;
+		padding-bottom:0px;
+		padding-right:0px;
+		
+	}
+
+	.kfz-searchable-icon
+	{
+		color:#fcd736;
+		margin-bottom:7px;
+		padding-left:16px;
+		margin-right:-10px;
+		padding-top:5px;
+	} 
+	.kfz-searchable-item
+	{
+		padding:0px;
+		background-color:rgba(85, 85, 85, 0.6);
+		border-color: #fcd736;
+
+	}
+
+
+	.kfz-input-text
+	{
+		text-transform:uppercase;
+		width:50px;
+		text-align:center;
+		font-weight:bold;    
+	}
+
+	.kfz-input-number
+	{
+		width:70px;
+		text-align:center;
+		font-weight:bold;    
+	}
+
+	.validation-error
+	{
+		color: map-get($colors, danger);
+		font-size:0.7em;
+		font-weight:bold;
+		background:rgba(22,22,22,0.5);
+		padding:0;
+		margin:0;
+	}
+
+	.validation-error-small
+	{
+		color: map-get($colors, danger);
+		font-size:0.7em;
+		font-weight:italic;
+		background:rgba(22,22,22,0.5);
+		padding:0;
+		margin-top:0;
+		margin-bottom:0;
+	}
+
+	.validation-error-small-password
+	{
+		color: map-get($colors, danger);
+		font-size:0.7em;
+		font-weight:italic;
+		background:rgba(22,22,22,0.5);
+		padding:3px;
+		margin:0px; 
+	}
+
+	.wizard-title-custom
+	{
+		color: theme-colors('textColors', 'primary');
+		font-size: $h1-font-size !important;
+		font-weight: bold !important;
+	}
+	.wizard-title2-custom
+	{
+		color: theme-colors('textColors', 'primary') !important;
+		font-size: $h2-font-size !important;
+		font-weight: bold !important;
+	}
+
+	.wizard-title3-custom
+	{
+		color: theme-colors('textColors', 'primary') !important;
+	
+	}
+
+	.wizard-title-sub-custom
+	{
+		color: theme-colors('textColors', 'primary')!important;
+		font-size: $h4-font-size !important;
+	}      
+
+	.swiper-pagination-bullet-active
+	{
+		background: theme-colors('mainColors', 'accent');
+	}
+	
+	.swiper-pagination-bullet 
+	{
+		background: theme-colors('mainColors', 'accent', 'opacity60');
+	}
+
+	.wizard-border
+	{
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+}
+

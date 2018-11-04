@@ -1,0 +1,14 @@
+
+J[yellow-text] {
+    color: theme-colors('textColors', 'primary') !important;
+    font-size: $h3-font-size !important;
+    }
+
+    .hidden{
+        display:none;
+    }
+
+    #karte,#beschreibung{
+        height:70%;
+        background-color: white;
+    }

@@ -1,0 +1,210 @@
+page-routing 
+{
+  .searchbarHeight
+  {
+    height:35px;
+  }
+
+  .grid-container { 
+    display: grid;
+    width: 100%;
+    grid-template-columns: 30px auto 50px;
+    grid-gap: 1px;
+    line-height: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  p{ 
+    padding:0px;
+    margin:0px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .grid-item {    
+    font-size: 12px;
+    padding-right:5px;
+    padding-left:5px;
+  }
+
+  .routingTitle {
+    padding-left:10px;
+    border-top-left-radius: $var-border-radius;
+    border-top-right-radius: $var-border-radius;
+    background-color:rgba(66, 66, 66,0.8);
+    line-height: $var-title-height;
+    text-align:left;
+    grid-column: 1 / span 3;
+    grid-row: 1 ;
+    font-weight: bold;
+  }
+  
+  .routingTitleButton 
+  {
+    height:$var-title-height;
+    float:right;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .routingStartIcon {
+    background-color:rgba(221, 221, 221,0.7);
+    text-align:center;
+    font-style: italic;  
+    grid-column: 1;
+    grid-row: 2 / span 2;
+  }
+  .routingStartText {
+    background-color:rgba(221, 221, 221,0.7);
+    text-align:left;
+    font-style: italic;
+    grid-column: 2;
+    grid-row: 2;
+
+  }
+  .routingStartTime {
+    background-color:rgba(221, 221, 221,0.7);
+    font-style: italic;
+    text-align:center;
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .routingEndeText {
+    background-color:rgba(221, 221, 221,0.7);
+    font-style: italic;
+    text-align:left;
+    grid-column: 2 ;
+    grid-row: 3;
+ 
+  }
+  .routingEndeTime {
+    background-color:rgba(221, 221, 221,0.7); 
+    text-align:center;
+    font-style: italic;
+    grid-column: 3;
+    grid-row: 3;
+  }
+  .routingComment {
+    background-color:rgba(221, 221, 221,0.7);
+    font-style: italic;
+    text-align:left;
+    grid-column: 1 / span 3;
+    grid-row: 4;
+  }
+  
+  .routingReport {
+    background-color:rgba(221, 221, 221,0.7);
+    font-style: italic;
+    text-align:left;
+    grid-column: 1 / span 3;
+    grid-row: 5;
+    font-style: italic;
+  }
+
+  .routingToolbar 
+  {
+    height: $var-title-height;
+    background-color:rgba(221, 221, 221,0.7);
+    grid-column: 1 / span 3;
+    grid-row: 6;
+    display:block;
+    padding-top:5px;
+    }
+
+    .routingTotal{
+      border-bottom-left-radius: $var-border-radius;
+      border-bottom-right-radius: $var-border-radius;
+      height: 42px;
+      background-color:rgba(66, 66, 66,0.8);
+      grid-column: 1 / span 3;
+	  grid-row: 7;
+      padding-top:5px;
+      // margin-top:3px!important;
+      }
+
+      .routingTotal2
+      {
+        border-bottom-left-radius: $var-border-radius;
+        border-bottom-right-radius: $var-border-radius;
+        height: 48px;
+        background-color:rgba(66, 66, 66,0.8);
+        grid-column: 1 / span 3;
+		display:inline-block;
+        grid-row: 7;
+        padding-top:5px;
+        padding-left:10px;
+       
+        // margin-top:3px!important;
+        }
+  
+  .routingActions {
+    width:100%;
+    grid-column: 1 / span 3;
+    grid-row: 7;
+    line-height: 32px;
+    padding:0px;
+    margin:0px;
+  }
+
+
+  .routingKM {
+    width: auto;
+    border-radius: $var-border-radius;
+    margin: 5px 0px 0px 0px;
+    background-color:rgba(66, 66, 66,0.8);
+    text-align:center;
+    grid-column: 1 / span 3;
+    grid-row: 8;
+    align-content: right;
+    align-self: right;
+    line-height: 18px;
+    float: right !important;
+  }
+  
+  .routingTime {
+    width:auto;
+    border-radius: $var-border-radius;
+    margin: 5px 5px 0px 0px;
+    background-color:rgba(66, 66, 66,0.8);
+    grid-column: 1 / span 3;
+    grid-row: 8;
+    align-content: center;
+    align-self: center;
+    line-height: 18px;
+    float: right !important;
+  }
+
+	.routingToolbar1 
+  	{
+		width:auto;
+		margin: 5px;
+		margin-top: 5px;
+		text-align:center;
+		grid-column: 1 / span 3;
+		grid-row: 8;
+		align-content: left;
+		align-self: left;
+		line-height: 18px;
+		color:#fcd736;
+	}
+  
+  .routingSpace {
+    text-align:center;
+    grid-column: 1 / span 3;
+    grid-row: 9;
+    line-height: 18px;
+    color:#fcd736;
+  }
+
+  .routingFAB {
+    text-align:center;
+    grid-column: 1 / span 3;
+    grid-row: 10;
+    line-height: 18px;
+    color:#fcd736;
+  }
+}

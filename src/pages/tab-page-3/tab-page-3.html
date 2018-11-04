@@ -1,0 +1,244 @@
+	<!--FAB-->
+	<ion-fab #fab right bottom style="color:fcd736!important;padding-bottom:80px;" (click)="onClickFab()">
+		
+			<button ion-fab>
+				  <ion-icon style="color:#fcd736!important;" name="add"></ion-icon>
+			</button>
+			
+			<ion-fab-list side="top" style="padding-bottom:80px;">
+				<button  ion-long-press *ngFor="let aCarwayModelServiceStruct of this.m_CarwayModelServiceStructProvider.m_Array_CARWAY_Model_Service_Struct;let nIndexServiceStruct=index" ion-fab class="fab-list" (click)="onClickOpenService(nIndexServiceStruct)"  (onPressing)="onLongClickEditServiceStruct(nIndexServiceStruct)">
+					<!--<ion-icon color="secondary" name="speedometer"></ion-icon>-->
+					<img [src]="aCarwayModelServiceStruct.m_sPathIcon" style="width:18px;height:18px">
+					<ion-label>{{aCarwayModelServiceStruct.m_ServiceStructTitle}}</ion-label>
+				</button>
+				<div class="separator-large"></div>
+				<button ion-fab class="fab-list" (click)="onClickCreateEigene()">
+					<img src="assets/icons/icoEuro.png" style="width:18px;height:18px">
+					<ion-label style="font-weight: bold">Eigene Kostenstelle erstellen</ion-label>
+				</button>
+			</ion-fab-list>
+  
+			<!--FAB-LIST-->
+			<!--<ion-fab-list side="top" style="padding-bottom:80px;">
+				<button ion-long-press ion-fab class="fab-list" (click)="onClickAddServiceGasoline()" (onPressing)="onClickEditServiceStructGasoline(0)">
+					<ion-icon  color="secondary" name="speedometer" ></ion-icon>
+					<ion-label style="background-color: #424242;">Tanken</ion-label>
+				</button>
+				<button ion-fab class="fab-list" (click)="onClickAddServiceCleanpark()">
+					<ion-icon color="secondary" name="car" ></ion-icon>
+					<ion-label>Waschanlage</ion-label>
+				</button>
+				<button ion-fa b class="fab-list" (click)="onClickAddServiceInspektion()">
+					<ion-icon color="secondary" name="hammer"></ion-icon>
+					<ion-label>Inspektion</ion-label>
+				</button>
+				<button ion-fab class="fab-list" (click)="onClickAddServiceRepair()">
+					<ion-icon color="secondary" name="bulb"></ion-icon>
+					<ion-label>Reparatur</ion-label>
+				</button>
+				<button ion-fab class="fab-list" (click)="onClickAddServiceOil()">
+					<ion-icon color="secondary" name="color-fill"></ion-icon>
+					<ion-label>Ölstand kontrollieren</ion-label>
+				</button>
+				<button ion-fab class="fab-list" (click)="onClickEigene()">
+					<ion-icon color="secondary" name="speedometer"></ion-icon>
+					<ion-label >Eigene Kostenstelle erstellen</ion-label>
+				</button>
+			</ion-fab-list>
+	-->
+		</ion-fab>
+	
+		<ion-content style="background-image: url(assets/images/background/31.jpg);background-size: 100% 100%;">
+		
+		<!--ÜBERSICHT KOSTEN-->
+		<ion-grid no-padding>
+			<ion-row style="padding: 5px;background-color: rgba(66, 66, 66,0.8);">
+				<ion-col col-1 style="display:flex;justify-content: center;align-items: center" (click)="eventClickedSlideNext()">
+						<ion-icon item-left name="arrow-back" style="color:#fcd736"></ion-icon>            
+				</ion-col>
+				
+				<ion-col col-3>
+					<ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Heute:</ion-label>
+					<ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalPriceToday | async}}</ion-label>
+				</ion-col>
+				<ion-col col-4 >
+					<ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Woche:</ion-label>
+					<ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalPriceWeek | async}}</ion-label>
+				</ion-col>
+				<ion-col col-3>
+					<ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Gesamt:</ion-label>
+					<ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalPriceAll | async}}</ion-label>
+				</ion-col>
+				<ion-col col-1 style="display:flex;justify-content: center;align-items: center" (click)="eventClickedSlidePrevious()">
+						<ion-icon item-left name="arrow-forward" style="color:#f3d341"></ion-icon>            
+					</ion-col>
+			
+			</ion-row>
+		</ion-grid> 
+			
+		<ion-slides #slides  (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()" initialSlide="1">
+			<ion-slide style="overflow-y: auto;display: block;" *ngFor="let trackDay of m_CARWAY_DayTrack_Provider.m_bindArrayShowTracks;let dayIndex = index">	
+				
+			
+				 <div style="height:10px"></div>
+				 
+	<!--
+				 <div *ngFor="let action of trackDay.m_arrayCARWAY_Model_Action;let in = index;">
+					<div *ngIf="action ">
+						 <ion-grid >
+								  
+				
+					<div class="grid-item routingTitle">
+								<p *ngIf="action?.m_sTitel" style="min-width:150px;float:left;font-size:larger;font-weight:bold;color: #fcd736" (click)="editTitel(trackIndex)">{{action.m_sTitel}}</p>
+					</div>
+					
+					<div class="grid-item routingTime">
+						<p *ngIf="action?.m_sTime" (click)="editTitel(trackIndex)">{{action.m_sTime}}</p>
+					</div>
+	
+					<div class="grid-item routingComment">
+						<ion-label *ngIf="action?.m_sDescription" no-padding no-margin (click)="editComment(trackIndex)">{{action?.m_sDescription}}</ion-label>
+				</div>
+	
+			<div>
+			<ion-grid>		
+				<ion-row *ngFor="let article of action.m_arrayCARWAY_Model_Article;let indexArticle = index;" style="align-items: center; background-color: rgba(221, 221, 221,0.7);margin-bottom:1px;">
+					<ion-col col-12>
+						<p text-left no-margin color="#000000" style="font-size:12px;">{{article.m_sDescription}}</p>
+					</ion-col>
+				 </ion-row>
+				</ion-grid>
+			</div>
+				<div class="grid-item routingToolbar" style="padding:5px;display:flex;">
+					<button ion-fab class="fab-toolbar" style="width:20px;height:20px">
+						<ion-icon style="font-size:12px;color:#fcd736" name="open" (click)="editTrack(trackIndex)"></ion-icon>
+					</button> 
+					<button ion-fab class="fab-toolbar">
+							<ion-icon style="font-size:12px;color:#fcd736" name="trash" (click)="deleteTrack(track.m_nTrackKey)"></ion-icon>
+						</button>
+						<button ion-fab class="fab-toolbar">
+							<ion-icon style="font-size:12px;color:#fcd736" name="paper-plane" (click)="eMailTrack(trackIndex)"></ion-icon>
+						</button>
+					</div>
+			</div>
+		</div>
+	</div>	
+	-->	
+				<ion-grid style="padding:10px 10px 5px 10px;" *ngFor="let service of trackDay.m_arrayCARWAY_Model_Service;let indexService=index;">
+					<div *ngIf="service != null">
+						<ion-row class="routingTitle">
+							<ion-icon icon-small name="color-fill" style="float:left;color: #fcd736!important;padding:0px 10px 0px 5px;"></ion-icon>
+							<ion-label no-wrap no-margin color="#000000" text-left style="float:left;font-size:14px;font-weight: bold;color: #fcd736;">{{service.m_sTitle}}</ion-label>
+							<button ion-fab (click)="fab.close();" class="fab-mini" style="float:right;background-color: #555555;align-self: center;margin: 0px 10px 0px 10px!important;">
+								<ion-icon style="font-size:14px;" name="arrow-down" (click)="this.m_bArrayExtendedView[indexService] = !this.m_bArrayExtendedView[indexService]"></ion-icon>
+							</button>
+								<!--	<ion-icon icon-small text-right  name="arrow-down" style="float:right;color: #fcd736!important;" (click)="this.m_bExtendedView = !this.m_bExtendedView"></ion-icon>-->
+						</ion-row>
+					</div>
+					
+					<!--ITEM-->
+					<!--
+						<ion-row style="margin-top:1px;align-items: center; background-color: rgba(221, 221, 221,0.7);line-height:32px;padding:0px 10px 0px 10px;margin-bottom:1px;">
+						<ion-label no-margin text-left stacked style="float:left;font-size:14px;"><b>Artikel</b></ion-label>
+						<button ion-fab class="fab-mini" style="background-color: #999999;align-self: center;float:right;margin-right:5px;">
+							<ion-icon style="font-size:12px;" name="add" (click)="addArticle(in)"></ion-icon>
+						</button>
+					</ion-row>
+					-->
+	
+					<!--ITEM Data-->
+					<div *ngIf="this.m_bArrayExtendedView[indexService]">
+						<ion-row *ngFor="let serviceItem of service?.m_arrayCARWAY_Model_Service_Item" style="margin-bottom:1px;">
+								<!--ITEM Data:Text-->
+							<div *ngIf="serviceItem?.m_Type == MyCARWAY_WIZARD_OBJECT.TEXT" class="service-item-background" style="width:100%">
+								<ion-col col-12 no-margin no-padding>
+									<ion-label class="service-item-title" no-margin stacked text-left>{{serviceItem.m_sTitle}}</ion-label>
+									<ion-label class="service-item-text" no-margin stacked text-left>{{serviceItem.m_sText}}</ion-label>
+								</ion-col>
+							</div>
+	
+							<!--ITEM Data:Select-->
+							<div *ngIf="serviceItem?.m_Type == MyCARWAY_WIZARD_OBJECT.SELECT" class="service-item-background" style="width:100%">
+								<ion-col col-12 no-margin no-padding>
+									<ion-label class="service-item-title" no-margin stacked text-left>{{serviceItem.m_sTitle}}</ion-label>
+									<ion-label class="service-item-text"  no-margin stacked text-left>{{serviceItem.m_sText}}</ion-label>
+								</ion-col>
+							</div>					
+							
+							<!--ITEM Data:Location-->
+							<div *ngIf="serviceItem?.m_Type == MyCARWAY_WIZARD_OBJECT.LOCATION" class="service-item-background" style="width:100%;">
+								<ion-col col-12 no-margin no-padding>
+									<ion-label class="service-item-title" no-margin no-padding stacked text-left>{{serviceItem.m_sTitle}}</ion-label>
+									<ion-label class="service-item-text" no-margin no-padding stacked text-left>{{serviceItem.m_sText}}</ion-label>
+								</ion-col>
+							</div>
+	
+							<!--ITEM Data:Time-->
+							<div *ngIf="serviceItem?.m_Type == MyCARWAY_WIZARD_OBJECT.TIME" class="service-item-background"  style="width:100%">
+								<ion-col col-12 no-padding no-margin >
+									<ion-label  class="service-item-title"  no-margin stacked text-left>{{serviceItem.m_sTitle}}</ion-label>
+									<ion-label class="service-item-text"  no-margin stacked text-left>{{serviceItem.m_sTextHour}}:{{serviceItem.m_sTextMinute}}</ion-label>
+								</ion-col>
+							</div>
+	
+							<!--ITEM Data:Costs-->
+							<div *ngIf="serviceItem?.m_Type == MyCARWAY_WIZARD_OBJECT.COSTS" style="width: 100%;">
+								<ion-row no-margin no-padding *ngFor="let costs of serviceItem.m_Array_CARWAY_Model_Service_Item_Costs;let indexCosts = index;" style="background-color:rgba(200,200,200,0.2);">
+						
+									<!--ITEM Data:Article-->
+									<ion-col col-7 no-padding>
+										<div class="service-item-background" style="margin-right:1px;">
+											<ion-label class="service-item-title" no-margin stacked text-left>Bezeichnung</ion-label>
+											<ion-row>
+												<ion-input class="service-item-text" no-margin style="padding-left:10px" type="text" tabindex="1+{{in}}" name="INPUT_ARTICLE_Description_{{in}}" required placeholder="Bezeichnung" [(ngModel)]="costs.m_sText" ></ion-input>
+											</ion-row>
+										</div>
+									</ion-col>
+						
+									<!--ITEM Data:Amount-->
+									<ion-col col-2 no-padding>
+										<div class="service-item-background"  style="margin-right:1px;">
+											<ion-label class="service-item-title" no-margin stacked>Menge</ion-label>
+											<ion-row>
+												<input class="service-item-text" min="1" max="99999" pattern="^[0-9]*$" onKeyPress="if(this.value.length>=5) return false;"   size="5" min="1" max="99999" maxlength="5" style="width:100%;background-color:transparent;border:none;" name="INPUT_Amount_{{in}}" type="number" tabindex="2+{{in}}" required placeholder="0"  text-center  [(ngModel)]="costs.m_nAmount" (keyup)="clickedPrice()">
+											</ion-row>
+										</div>
+									</ion-col>
+						
+									<!--ITEM Data:Price-->
+									<ion-col col-3 no-padding>
+										<div class="service-item-background">
+											<ion-label class="service-item-title" no-margin stacked>Preis in €</ion-label>
+											<ion-label class="service-item-text" no-margin style="padding-right:10px!important;" text-right>{{costs.m_oPrice?.m_sEuro}},{{costs.m_oPrice?.m_sCent}}</ion-label>
+										</div>
+									</ion-col>
+								</ion-row>	
+							</div>
+						</ion-row>
+					</div>
+					<ion-row >
+						<ion-col col-12 no-padding no-margin>
+							<div class="routingToolbar">
+								<button ion-fab class="fab-toolbar" style="float:left!important;padding-right:5px;" (click)="editService(indexService)">
+									<ion-icon  style="font-size:16px;color:#fcd736" name="open" ></ion-icon>
+								</button> 
+									<button [hidden]="!m_bShowEmail" ion-fab class="fab-toolbar"  style="float:left!important;padding-right:5px;"  (click)="eMailService(dayIndex,indexService)">
+										<ion-icon style="font-size:16px;color:#fcd736" name="paper-plane"></ion-icon>
+									</button>
+									<button ion-fab class="fab-toolbar" style="float:right!important;" (click)="deleteService(indexService)">
+											<ion-icon style="font-size:16px;color:#fcd736" name="trash" ></ion-icon>
+										</button>
+								</div>				
+							</ion-col>
+					</ion-row>
+
+					<ion-row class="routingTotal">
+							<ion-label *ngIf="service.m_oPrice?.m_sEuro != '0' || service.m_oPrice?.m_sCent != '00'" no-wrap no-margin text-right  class="plain-text" style="padding: 2px 10px 0 0;float:right;font-size:12px;">Kosten: {{service.m_oPrice?.m_sEuro}}.{{service.m_oPrice?.m_sCent}} €</ion-label>
+								<!--	<ion-icon icon-small text-right  name="arrow-down" style="float:right;color: #fcd736!important;" (click)="this.m_bExtendedView = !this.m_bExtendedView"></ion-icon>-->
+						</ion-row>
+			</ion-grid>
+			</ion-slide>
+		</ion-slides>
+	</ion-content>
+	
+								<ion-icon style="font-size:12px;color:#fcd736" name="open" (click)="openService(MyCARWAY_EDIT_TYPE.WIZARD,indexService, service)"></ion-icon>

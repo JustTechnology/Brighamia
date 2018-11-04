@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-navbar >
+        
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+          
+        <ion-buttons no-padding end>
+        
+        <button no-margin style="padding:0px 20px 0px 0px" ion-button icon-only (click)="eventSearchOpen()">
+          <ion-icon name="search"></ion-icon>
+        </button>
+        
+        <button style="padding:0px 20px 0px 0px" ion-button icon-only (click)="eventClickedOpenLog()">
+          <ion-icon name="settings"></ion-icon>
+        </button>  
+      
+        <button no-margin style="padding:0px 25px 0px 10px" ion-button icon-only (click)="clickedToggleTracking()">
+                <div id="div1" style="position:absolute;">
+                    <ion-icon *ngIf="m_bTrackingActive" name="custom-puff" style="width:40px;height:40px;"></ion-icon>
+                </div>
+                <div id="div2" style="position:absolute;">
+                    <ion-icon  name="locate"></ion-icon>
+                  </div>
+            </button>  
+  
+      </ion-buttons>
+      
+      <ion-title (click)="eventClickedTitle()">
+          <b>{{this.m_CARWAY_DayTrack_Provider?.m_CARWAY_Model?.m_arrayCARWAY_Model_Day[this.m_CARWAY_DayTrack_Provider.m_nActDayIndex].m_sTitle}}</b>
+          <ion-datetime  
+          (ionChange)="changeDate($event)"
+          doneText="Übernehmen" 
+          cancelText="Abbrechen" 
+          style="padding:0px;margin:0px;font-size: 75%;" 
+          displayFormat="DD.MMMM YYYY" 
+          [ngModel]="this.m_CARWAY_DayTrack_Provider?.m_CARWAY_Model?.m_arrayCARWAY_Model_Day[this.m_CARWAY_DayTrack_Provider.m_nActDayIndex].m_nTrackDayKey | datetimecontrol" 
+          monthNames="Januar,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember"
+          monthShortNames="Jan.,Feb.,März,Apr.,Mai,Juni,Juli,Aug.,Sep.,Okt.,Nov.,Dez."
+          dayNames="Montag,Dienstag,Mittwoch,Dnenrstag,Freitag,Samstag,Sonntag ..."
+          [pickerOptions]="dateTimeTodayButton"></ion-datetime>
+      </ion-title>
+  
+      <ion-searchbar [hidden]="!m_bindShowSearchbar" style="width:100%;float:left;"
+        [showCancelButton]="false"
+        (ionInput)="eventInputSearchItem($event)">
+      </ion-searchbar>
+      
+      <ion-list *ngIf="m_bShowSearchList && m_bindShowSearchbar">
+        <button no-padding no-margin ion-item style="background-color: #fcd736;color:#424242" *ngFor="let searchResult of m_ArraySearchResults" (click) = "eventShowSearchResult(searchResult)">
+         <p style="font-weight: bold">{{ searchResult.Title }}</p>
+         <p style="font-size:small">{{ searchResult.Date }}</p>
+        </button>
+      </ion-list>
+  
+      <!--<select-searchable  style="color:#fcd736;padding-top:0px;padding-bottom:0px;padding-right:0px;"
+      [(ngModel)]="m_bindselectedFabrikat"
+          title="Fabrikat"
+          itemValueField="id_car_make"
+          itemTextField="name"
+          [items]="kfz_fabrikat"shpw
+          [canSearch]="true" 
+          [isSearching]= "false"
+          (ngModelChange)="onSelectChangeFabrikat($event)">
+        </select-searchable>
+      -->
+     <!-- <ion-buttons end>
+            <button ion-button icon-only (click)="openModal()">
+              <ion-icon name="options"></ion-icon>
+            </button>  
+          </ion-buttons>
+        --> 
+      </ion-navbar>
+    </ion-header>
+      <ion-content> 
+  
+          <ion-tabs #tabs selectedIndex="1" tabsPlacement="bottom" tabsHighlight="true">
+            <ion-tab tabTitle="Fahrten" [root]="tabPageRoute" ></ion-tab>
+            <ion-tab tabTitle="Karte" [root]="tabPageEmpty"></ion-tab>
+            <ion-tab tabTitle="Services" [root]="tabPageBericht"></ion-tab>
+          </ion-tabs>   
+      </ion-content>
+      
+      <!--
+        <ion-pullup #pullup (onExpand)="eventFooterExpanded()" (onCollapse)="eventFooterCollapsed()" [(state)]="footerState">
+          <ion-pullup-tab [footer]="pullup" (tap)="eventToggleFooter()">
+            <ion-icon name="arrow-up" *ngIf="footerState == 0"></ion-icon><ion-icon name="arrow-down" *ngIf="footerState == 1"></ion-icon>
+          </ion-pullup-tab>
+          <ion-content>
+          <div style="height:100px;">
+            HUHUA 
+          </div>
+          </ion-content>
+        </ion-pullup>
+      -->
+          
+  

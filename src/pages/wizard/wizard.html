@@ -1,0 +1,276 @@
+<ion-slides #wizardSlider pager="true" style="background-image: url(assets/images/background/29.jpg);background-size: 100% 100%;" (ionSlideNextStart)="nextSlide()">
+	
+	<!-- SLIDE WELCOME -->
+  	<ion-slide *ngIf="!this.m_bFlotte">
+
+    	<div class="wizard-border">
+
+			<div style="display:inline-block;vertical-align: middle;">
+				<img style="width:200px;height:80px;" src="assets/imgs/logo2.png" alt="Logo" (click)="openDebugLog()">
+			</div> 
+	
+			<div padding-top></div>
+
+			<p class="wizard-title2-custom" padding-top padding-bottom>Die App für ihr Fahrzeug</p>
+			
+			<p class="wizard-title-sub-custom"><ion-icon name="flag" style="padding-right:8px;"></ion-icon>Elektronisches Fahrtenbuch per GPS oder GSM</p>
+			<p class="wizard-title-sub-custom"><ion-icon name="flag" style="padding-right:8px;"></ion-icon>Berechnung aller Fahrtkosten</p>
+			<p class="wizard-title-sub-custom"><ion-icon name="flag" style="padding-right:8px;"></ion-icon>Navigation über google Maps</p>
+			<p class="wizard-title-sub-custom"><ion-icon name="flag" style="padding-right:8px;"></ion-icon>Auswertungen im pdf-Format</p>
+			<p class="wizard-title-sub-custom"><ion-icon name="flag" style="padding-right:8px;padding-top:8px;"></ion-icon><b><u>Kostenlose Web-Version auf www.CarWay.de</u></b></p>
+		
+			<!-- FOOTER BUTTONS -->
+			<ion-footer>
+				<ion-toolbar>
+					<ion-list>
+						<button padding-bottom class="footer-button"  ion-button button-clear clear float-right (click)="changeSlide(1)" >
+							Vor
+						</button>
+					</ion-list>
+				</ion-toolbar>
+			</ion-footer>
+			<!-- /FOOTER BUTTONS -->
+	
+		</div> 
+		
+	</ion-slide>
+	<!-- /SLIDE WELCOME -->
+
+
+	<!-- SLIDE USER DATA -->
+	<ion-slide>
+    
+		<div class="wizard-border">
+
+			<!-- STAR -->
+			<div style="min-height:75px">
+				<ion-icon icon-large [hidden]="m_bind_CARWAY_UserSaved || m_bind_pending" name="star-outline" color="secondary"></ion-icon>
+				<ion-icon icon-large [hidden]="!m_bind_CARWAY_UserSaved || m_bind_pending" name="star" color="secondary"></ion-icon>
+				<img *ngIf="m_bind_pending" id="CARWAY_Submit_SaveUser" style="width:35px;height:35px;" src="assets/svg/ball-triangle.svg">
+			</div>
+			<!-- /STAR -->
+		   
+			<!-- KENNZEICHEN -->
+			<p class="wizard-title2-custom">Ihr KFZ-Kennzeichen</p>
+			
+			<form [formGroup]="m_fg_validateKFZ">  
+				<ion-list no-padding no-margin>
+					<ion-item  text-center>
+						<input class="kfz-input-text" id="CARWAY_input_KFZ1" formControlName="KFZText1" [class.invalid]="!m_fg_validateKFZ.controls.KFZText1.valid && (m_fg_validateKFZ.controls.KFZText1.dirty || m_bind_CARWAY_ShowValidationHintKFZ)" [readonly]= "(m_bind_pending || m_bind_CARWAY_UserSaved)" [style.color]="m_bind_CARWAY_UserSavedColor" type="text" size="3" min="1" max="3" maxlength="3" [(ngModel)]="m_bind_CARWAY_INPUT_KFZ1" fixes (keydown)="onKeyDownText1($event.keyCode)" (keyup)="onKeyUp1($event.keyCode)">
+						<input class="kfz-input-text" id="CARWAY_input_KFZ2" formControlName="KFZText2" [class.invalid]="!m_fg_validateKFZ.controls.KFZText2.valid && (m_fg_validateKFZ.controls.KFZText2.dirty || m_bind_CARWAY_ShowValidationHintKFZ)"  [readonly]= "(m_bind_pending || m_bind_CARWAY_UserSaved)" [style.color]="m_bind_CARWAY_UserSavedColor" type="text" size="2" min="1" max="2" maxlength="2" [(ngModel)]="m_bind_CARWAY_INPUT_KFZ2" fixed (keydown)="onKeyDownText2($event.keyCode)" (keyup)="onKeyUp2($event.keyCode)">
+						<input class="kfz-input-number" id="CARWAY_input_KFZ3" formControlName="KFZNumber" [class.invalid]="!m_fg_validateKFZ.controls.KFZNumber.valid && (m_fg_validateKFZ.controls.KFZNumber.dirty || m_bind_CARWAY_ShowValidationHintKFZ)" [readonly] = "(m_bind_pending || m_bind_CARWAY_UserSaved)" [style.color]="m_bind_CARWAY_UserSavedColor" type="number" size="4" min="1" max="9999" maxlength="4" [(ngModel)]="m_bind_CARWAY_INPUT_KFZ3" fixed (keydown)="onKeyUpNumber($event.keyCode)" (keyup)="onKeyUp3($event.keyCode)">
+					</ion-item>
+				</ion-list>
+			</form>
+			<div *ngIf="!m_bind_CARWAY_ShowValidationHintKFZ" style="min-height:15px;height:15px">
+				<!--Abstanbdshalter -->
+				 
+			</div>
+			<div *ngIf="m_bind_CARWAY_ShowValidationHintKFZ" style="min-height:15px;height:15px">
+					<p class="validation-error-small-password">Bitte Kennzeichen im Format: 'BBB-BB ZZZZ' eingeben.</p>
+			
+				</div>		
+			<!-- /KENNZEICHEN -->
+		   
+			<!-- WEB-ZUGANG -->
+			<p class="wizard-title-sub-custom" style="font-weight:bold;">Web-Zugang von CarWay:</p>
+
+			<div style="max-width:500px;margin-left: auto;margin-right: auto;">
+				<a href="https:/Just-Technology.de/PWA" target="_blank">
+					<input id="CARWAY_INPUT_WEBURL" [style.color]="m_bind_CARWAY_UserSavedColor" type="text" [disabled] = "!m_bind_CARWAY_INPUT_KFZCodeAvailable" style="text-align:center;width:100%; font-size:12px; font-weight:bold;" [(ngModel)]="m_bind_CARWAY_INPUT_LoginUrl" [ngModelOptions]="{standalone: true}">
+				</a>
+			</div>
+			<!-- /WEB-ZUGANG -->
+			
+			<!-- PASSWORT -->
+			<div  style="max-width:350px !important;margin-left: auto;margin-right: auto;padding-bottom:0px;padding-top:10px;margin-top:0px;margin-bottom:0px; ">
+				<div *ngIf="!m_bind_showLogin" (click)="takePasswort()">
+				<p class="wizard-title-sub-custom" style="padding-bottom:5px !important;margin-bottom:0px !important;">Persönliches Passwort erstellen:</p>
+				<!--<div style="width:80px;margin-bottom:8px;border-color:#fcd736;padding-top:0px;margin-top:0px;display:inline-block;border-style:solid!important;border-width:1px;border-radius: 1500px!important">-->
+					<ion-icon name="refresh" color="secondary"  >  </ion-icon>
+				<!--</div>-->
+				<!--  <button ion-button icon-start small style="background-color: #fcd736;color:#333333;"><ion-icon name="refresh"></ion-icon></button>>-->
+			</div>
+			
+			<!-- PASSWORT HINT -->
+			<p *ngIf="m_bind_CARWAY_ShowValidationHintPasswort && !m_bind_showLogin" class="validation-error-small-password">Das Passwort muss mindestens 8 Zeichen, eine Zahl und ein Buchstabe enthalten.</p>
+			<div padding-top *ngIf="m_bind_CARWAY_ShowValidationHintPasswort"></div>
+			<!-- /PASSWORT HINT -->
+			<div style="text-align:right;">
+			<!--<button ion-button style="background-color: #fcd736;color:#333333;height:14px;width:16px;" (touchstart)="touchstart()" (touchend)="touchend()"><ion-icon name="eye"></ion-icon></button>-->
+			<ion-icon icon-small name="eye" style="float:right;padding-left:5px;padding-right:5px" color="secondary" (touchstart)="touchstart()" (touchend)="touchend()"></ion-icon>
+			<ion-icon icon-small  [hidden]="m_hideCopyClipboard || m_bind_showLogin" name="copy" style="float:right;padding-right:10px;" color="secondary" (click)="copyToClipboard()"></ion-icon>
+		</div>
+				<!-- PASSWORT INPUT -->
+			<form [formGroup]="m_fg_validatePassword">
+					<ion-item style="background-color:rgba(85, 85, 85, 0.4);" no-lines> 
+					
+					<!-- PASSWORT OPTIONAL -->
+					<ion-icon *ngIf="!m_bind_showLogin" item-start no-padding icon-small name="lock" color="secondary"></ion-icon>
+					<ion-input  id="CARWAY_input_Passwort1" *ngIf="!m_bind_showLogin" style="display:inline-block!important;float:right;color:#DDDDDD !important" formControlName="Passwort" placeholder="Passwort (optional)" [type]="m_bind_CARWAY_showPasswort" [(ngModel)]="m_bind_CARWAY_INPUT_Password" fixed></ion-input>
+					<!-- /PASSWORT OPTIONAL -->
+					 
+					<!-- PASSWORT -->
+					<ion-icon *ngIf="m_bind_showLogin" item-start no-padding icon-small name="lock" color="secondary"></ion-icon>
+					<ion-input id="CARWAY_input_Passwort2" *ngIf="m_bind_showLogin" style="color:#DDDDDD !important" formControlName="Passwort" placeholder="Passwort" [type]="m_bind_CARWAY_showPasswort" [(ngModel)]="m_bind_CARWAY_INPUT_Password" fixed></ion-input>
+					<!-- /PASSWORT -->
+				
+				</ion-item>   
+				 
+				<ion-item *ngIf="!m_bind_showLogin" style="background-color:rgba(85, 85, 85, 0.4);" no-lines> 
+					
+					<!-- PASSWORT WIEDERHOLEN-->
+					<ion-icon item-start icon-small name="lock" color="secondary"></ion-icon>
+					<ion-input style="color:#DDDDDD !important" formControlName="Passwort" id="CARWAY_input_Bestaetigt" placeholder="Passwort wiederholen" [type]="m_bind_CARWAY_showPasswort" [(ngModel)]="m_bind_CARWAY_INPUT_PasswordBestaetigt" fixed></ion-input>
+					<!-- /PASSWORT WIEDERHOLEN-->
+				
+				</ion-item>
+			</form>
+			<!-- /PASSWORT INPUT-->
+			
+			</div>      
+			<!-- /PASSWORT -->
+
+			<div padding-top></div>  
+			
+			<!-- SUBMIT -->
+			<!--<button *ngIf="m_bind_showLogin" ion-button icon-start small style="background-color: #fcd736;color:#333333;" [disabled]="m_bind_CARWAY_UserSaved || m_static_bind_bSaveBlocked || (m_LoginTrys>4 && m_bind_showLogin)" type="submit" (click)="save()"><ion-icon name="checkmark"></ion-icon>
+				<label *ngIf="!m_bind_showLogin">Kennzeichen registrieren</label>
+				<label *ngIf="m_bind_showLogin">Einloggen</label>
+			</button>-->
+			<!-- /SUBMIT -->
+
+			<div padding-top padding-bottom></div>  
+				
+			<!-- FOOTER BUTTONS -->
+			<ion-footer>
+				<ion-toolbar>
+					<ion-list>
+						<button  padding-bottom class="footer-button" ion-button button-clear clear float-left (click)="changeSlide(-1)" >
+							<div *ngIf="this.m_bFlotte">Abbrechen</div>
+							<div *ngIf="!this.m_bFlotte">{{m_bindBackButton}}</div>
+						</button>
+						<button *ngIf="m_bind_showLogin" padding-bottom class="footer-button" ion-button button-clear clear float-right (click)="save()" >
+							Einloggen
+						</button>
+						<button *ngIf="!m_bind_showLogin" padding-bottom class="footer-button" ion-button button-clear clear float-right (click)="changeSlide(1)" >
+							Vor
+						</button>
+					</ion-list>
+				</ion-toolbar>
+			</ion-footer>
+			<!-- /FOOTER BUTTONS -->
+			
+		</div>
+	  
+	</ion-slide>
+  	<!-- /SLIDE USER DATA -->
+			
+	  
+  	<!-- SLIDE KFZ -->
+	<ion-slide>
+      
+    	<div class="wizard-border">
+		  
+		  	<!-- FOTO KFZ -->
+        	<div  aling="center">
+				<img style="width:70%;max-width:350px;" [src]="m_CARWAY_Model_Car_Provider.m_CARWAY_Model_Car.m_sPictureURL">
+			</div>
+        	<button  [disabled]="!m_bind_CARWAY_UserSaved" ion-button small (click)="addFoto()">Eigenes Foto hinzufügen</button>
+		  	<!-- /FOTO KFZ -->
+		
+			<div padding-top></div>
+      
+			<!-- BEZEICHNUNG -->
+			<ion-item no-lines no-padding>
+          		<ion-input text-center id="CARWAY_INPUT_CARBezeichnung" [disabled]="!m_bind_CARWAY_UserSaved" type="text" [(ngModel)]="m_bind_CARWAY_INPUT_CarBezeichnung" fixed></ion-input>
+        	</ion-item>            
+            <!-- / BEZEICHNUNG -->
+			    
+        	<div style="max-width:350px !important;margin-left: auto;margin-right: auto;padding-top:10px;">
+				  
+					<!-- KFZ MARKE -->
+					<ion-item class="kfz-searchable-item"> 
+							<ion-icon item-left icon-small name="car" class="kfz-searchable-icon"></ion-icon>
+							<select-searchable class="kfz_searchable-select"
+								[(ngModel)]="m_bindselectedFabrikat"
+								  title="Fabrikat"
+								  itemValueField="id_car_make"
+								  itemTextField="name"
+								  [items]="kfz_fabrikat"
+								  [canSearch]="true" 
+								  [isSearching]= "false"
+								  (ngModelChange)="onSelectChangeFabrikat($event)">
+							</select-searchable>
+						</ion-item>
+						<!-- /KFZ MARKE -->
+							
+						<!-- KFZ MODELL -->
+						<ion-item class="kfz-searchable-item">
+							<ion-icon item-left icon-small name="car" class="kfz-searchable-icon"></ion-icon>
+							<select-searchable  *ngIf="m_CARWAY_Fabrikat_Name" class="kfz_searchable-select"
+								[(ngModel)]="m_bindselectedModell"
+								title="Modell"
+								itemValueField="id_car_model"
+								itemTextField="name"
+								[items]="kfz_modell"
+								[canSearch]="true"
+								[isSearching]= "false"
+								(ngModelChange)="onSelectChangeModell($event)">
+							</select-searchable>
+						</ion-item>
+							<!-- /KFZ MODELL -->
+						
+						<!-- KFZ GENERATIONL -->
+						<ion-item class="kfz-searchable-item">
+							<ion-icon item-left icon-small name="car" class="kfz-searchable-icon"></ion-icon>
+							<select-searchable *ngIf="m_CARWAY_Modell_Name" class="kfz_searchable-select"
+								[(ngModel)]="m_bindselectedGeneration"
+								title="Generation"
+								itemValueField="id_car_model"
+								itemTextField="name"
+								[items]="kfz_generation"
+								[canSearch]="true"
+								[isSearching]= "false"
+								(ngModelChange)="onSelectChangeGeneration($event)">
+							</select-searchable>
+						</ion-item>
+						<!-- /KFZ GENERATIONL -->
+		 
+					<!-- KFZ MOTOR -->
+					<ion-item class="kfz-searchable-item">
+						<ion-icon item-left icon-small name="car" class="kfz-searchable-icon"></ion-icon>
+						<select-searchable *ngIf="m_CARWAY_Generation_Name" class="kfz_searchable-select"
+							[(ngModel)]="m_bindselectedMotorisierung"
+							title="Motor"
+							itemValueField="id_car_model"
+							itemTextField="name"
+							[items]="kfz_motorisierung" 
+							[canSearch]="true"
+							[isSearching]= "false"
+							(ngModelChange)="onSelectChangeMotorisierung($event)">
+							</select-searchable>
+					</ion-item>
+					<!-- /KFZ MOTOR -->
+	
+				</div>
+			
+			<!-- FOOTER BUTTONS -->
+			<ion-footer>
+				<ion-toolbar>
+					<ion-list>
+						<button  padding-bottom class="footer-button" ion-button button-clear clear float-left (click)="changeSlide(-1)" >
+							Zurück
+						</button>
+						<button  padding-bottom class="footer-button" ion-button button-clear clear float-right (click)="onFinish()" >
+							Fertig!
+						</button>
+					</ion-list>
+				</ion-toolbar>
+			</ion-footer>
+			<!-- /FOOTER BUTTONS -->      
+    	</div>
+    
+  	</ion-slide>
+
+</ion-slides>

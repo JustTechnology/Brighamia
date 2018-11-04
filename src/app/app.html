@@ -1,0 +1,46 @@
+<!-- SplitPane for Master/Detail View -->
+<ion-split-pane>
+
+  <ion-menu [content]="content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <div>
+        <ion-card text-center class="hide-card">
+          <img [src]="m_CARWAY_Model_Car_Provider.m_CARWAY_Model_Car.m_sPictureURL" class="custom-avatar"/>
+            <div class="menu-heading-car">
+              <h2>{{m_CARWAY_Model_Car_Provider.m_CARWAY_Model_Car.m_sCarName}}</h2>
+            </div>
+        </ion-card>
+      </div>
+      
+      <ion-list>
+        <button menuClose ion-item (click)="openPageFlotte()">
+          Flotte zusamenstellen
+        </button>
+        <button menuClose ion-item (click)="openPage('Report')">
+          Falschparker melden
+        </button>
+        <button menuClose ion-item (click)="openPage('Settings')">
+          Auftrag ausschreiben
+        </button>
+        <button menuClose ion-item (click)="openPage('Help')">
+          Bericht erstellen
+        </button>
+        <button menuClose ion-item (click)="openPage('Logbook')">
+          Fahrtenbuch drucken
+        </button>
+      </ion-list>
+
+    </ion-content>
+  
+  </ion-menu>
+
+  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+  <ion-nav root="HomePage" #content swipeBackEnabled="false" main></ion-nav>
+
+</ion-split-pane>

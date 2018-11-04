@@ -1,0 +1,196 @@
+
+<ion-content style="background-image: url(assets/images/background/31.jpg);background-size: 100% 100%;padding-top:auto">
+	<ion-grid no-padding>
+        <ion-row style="padding: 5px;background-color: rgba(66, 66, 66,0.8);">
+			<ion-col col-1 style="display:flex;justify-content:center;align-items:center" (click)="eventClickedSlideNext()">
+				<ion-icon style="font-size: 20px" item-left name="arrow-back" style="color:#fcd736"></ion-icon>            
+						</ion-col>
+				<ion-col col-3>
+				  <ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Heute:</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalDurationTodayMapAndReal | async}}</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:xx-small;color:rgba(252,215,54,0.8);">( <ion-icon item-left style="font-size: 9px;color:rgba(252,215,54,0.8);" name="car"></ion-icon> {{m_oTotalDurationTodayDriven | async}} )</ion-label>
+                </ion-col>
+              <ion-col col-4 >
+                  <ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Woche:</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalDurationWeekMapAndReal | async}}</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:xx-small;color:rgba(252,215,54,0.8);">( <ion-icon item-left style="font-size: 9px;color:rgba(252,215,54,0.8);" name="car"></ion-icon> {{m_oTotalDurationWeekDriven | async}} )</ion-label>
+                </ion-col>
+              <ion-col col-3>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-weight: bold;">Gesamt:</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:small;">{{m_oTotalDurationAllMapAndReal | async}}</ion-label>
+                  <ion-label stacked no-margin text-center color="secondary" style="font-size:xx-small;color:rgba(252,215,54,0.8);">( <ion-icon item-left style="font-size: 9px;color:rgba(252,215,54,0.8);" name="car"></ion-icon> {{m_oTotalDurationAllDriven | async}} )</ion-label>
+				</ion-col>
+				<ion-col col-1 style="display:flex;justify-content: center;align-items: center" (click)="eventClickedSlidePrevious()">
+						<ion-icon item-left name="arrow-forward" style="color:#f3d341"></ion-icon>            
+					</ion-col>
+			
+              </ion-row>
+            </ion-grid>   
+<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content padding 
+			pullingIcon="arrow-dropdown"
+			pullingText="Routen aktualisieren"
+			refreshingSpinner="bubbles"
+			refreshingText="">
+		</ion-refresher-content>
+	</ion-refresher>	
+		<ion-slides #slides  (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()" initialSlide="1" >
+			<ion-slide style="overflow-y: auto;display: block;" *ngFor="let trackDay of m_CARWAY_DayTrack_Provider.m_bindArrayShowTracks;let dayIndex = index">	
+
+				<!--			<div style="height:10px">
+									<h1 style="color: #fcd736">{{dayIndex}} - {{trackDay.m_nTrackDayKey}}</h1>
+
+			</div> -->
+		
+		<!-- BUTTON
+		<div padding-left padding-right style="display:flex;just ify-content: center;align-items: center;background-color: rgba(221, 221, 221,0.2)">
+			<button ion-button round color="secondary" style="width:50px;height:20px;">  <ion-icon name="add"></ion-icon></button>
+		</div>
+		-->
+		<!-- BUTTON
+		<div padding-left padding-right style="text-align: right;background-color: rgba(221, 221, 221,0.2)">
+			<button ion-button color="secondary" style="width:20px;height:20px; border-radius: 50%">  <ion-icon name="add"></ion-icon></button>
+		</div>
+		-->
+		 
+		<div padding-left padding-right margin-top margin-bottom style="height:24px;display:flex;justify-content: center;align-items: center;background-color: rgba(221, 221, 221,0.2)">
+			<!--<ion-icon icon-small no-margin color="#fcd736" name="add" (click)="add(-1)"></ion-icon>-->
+			<button ion-fab class="fab-small" (click)="addTrack(-1)">
+					<ion-icon style="color:#fcd736!important" name="add"></ion-icon>
+				  </button>
+		</div>
+		
+		<div *ngFor="let track of trackDay?.m_arrayCARWAY_Model_Track_Single;let trackIndex = index">
+			<div *ngIf="track ">
+					<!--<div class="hr-theme-slash-2">
+							<div class="hr-line"></div>-->
+							<!--<div class="hr-line"></div>
+						  </div>-->
+						  
+					<div class="grid-container">
+							<div class="grid-item routingToolbar">
+								<button ion-fab class="fab-toolbar" style="float:left!important;padding-right:5px;" (click)="editTrack(trackIndex)">
+									<ion-icon  style="font-size:16px;color:#fcd736" name="open" ></ion-icon>
+								</button> 
+									<button [hidden]="!m_bShowEmail" ion-fab class="fab-toolbar"  style="float:left!important;padding-right:5px;"  (click)="eMailTrack(dayIndex,trackIndex)">
+										<ion-icon style="font-size:16px;color:#fcd736" name="paper-plane"></ion-icon>
+									</button>
+									<button ion-fab class="fab-toolbar" style="float:right!important;" (click)="deleteTrack(trackIndex)">
+											<ion-icon style="font-size:16px;color:#fcd736" name="trash" ></ion-icon>
+										</button>
+								
+								</div>
+							 
+							<div class="grid-item routingTitle">
+								<p *ngIf="track?.m_sTitle" style="min-width:100px;max-width:200px;float:left;font-size:larger;color: #fcd736" (click)="editTitel(trackIndex)"><b>{{track?.m_sTitle}}</b></p>
+								<p *ngIf="!track?.m_sTitle" style="min-width:150px;max-width:200px;float:left;font-size:larger;color: #fcd736" (click)="editTitel(trackIndex)"><b>{{myGlobalConstants.CARWAY_ROUTE_STANDARDTEXT_TITLE}}</b></p>
+							
+							<div class="grid-item routingTitleButton">
+										<button style="background-color: #555555;height:20px;border-radius: 12px;" >
+									<ion-icon style="font-size:12px!important;color: #fcd736;margin-right:5px;" name="briefcase" (click)="saveBusiness(track.m_nTrackKey)" color="#fcd736" [hidden]="track.m_bIsPrivate" ></ion-icon>		
+										<ion-icon style="font-size:12px!important;color: #fcd736;margin-right:5px;" name="ios-briefcase-outline" (click)="saveBusiness(track.m_nTrackKey)"  [hidden]="!track.m_bIsPrivate"color="#fcd736"></ion-icon>
+										<ion-icon style="font-size:12px!important;color: #fcd736;margin-left:5px;" name="ios-home-outline" (click)="savePrivate(track.m_nTrackKey)"  [hidden]="track.m_bIsPrivate" color="#fcd736"></ion-icon>
+											<ion-icon style="font-size:12px!important;color: #fcd736;margin-left:5px;"  name="home" (click)="savePrivate(track.m_nTrackKey)" color="#fcd736" [hidden]="!track.m_bIsPrivate"></ion-icon>
+										</button> 
+									</div>
+						<!--<ion-toggle  style="float:right;color:#fcd736!important"></ion-toggle>-->
+							<p style="float:right;color: #fcd736;padding-right:5px;" *ngIf="track.m_bIsPrivate">privat</p>
+								<p style="float:right;color: #fcd736;padding-right:5px;" *ngIf="!track.m_bIsPrivate">geschäftlich</p>
+							</div> 
+
+						<div class="grid-item routingStartIcon">
+							<img src="assets/svg/fromto.svg" style="width:100%!important;height:100%!important;"alt="Destination">
+						</div>
+
+						<div class="grid-item routingStartText" (click)="editStart(trackIndex)">
+							<span *ngIf="track?.m_GeopositionStart?.m_sFormattedAddress">{{track?.m_GeopositionStart.m_sFormattedAddress}}</span>
+							<span *ngIf="!track?.m_GeopositionStart?.m_sFormattedAddress">{{myGlobalConstants.CARWAY_ROUTE_STANDARDTEXT_STARTPOSITION}}</span>
+						</div>
+
+						<div class="grid-item routingStartTime">
+							<input readonly no-padding no-margin style="border:none;background:none" [ngModel]="track?.m_GeopositionStart.m_nDateTimeKey | timeString">
+						</div>
+						
+						<div class="grid-item routingEndeText" (click)="editEnde(trackIndex)">
+							<span *ngIf="track?.m_GeopositionZiel?.m_sFormattedAddress">{{track?.m_GeopositionZiel.m_sFormattedAddress}}</span>
+							<span  *ngIf="!track?.m_GeopositionZiel?.m_sFormattedAddress">{{myGlobalConstants.CARWAY_ROUTE_STANDARDTEXT_ZIELPOSITION}}</span>
+						</div>
+
+						<div class="grid-item routingEndeTime">
+							<input readonly no-padding no-margin style="border:none;background:none" [ngModel]="track?.m_GeopositionZiel.m_nDateTimeKey | timeString">
+						</div> 
+
+						<div class="grid-item routingComment" (click)="editComment(trackIndex)">
+							<ion-label *ngIf="track?.m_sComment" no-padding no-margin>{{track?.m_sComment}}</ion-label>
+							<ion-label *ngIf="!track?.m_sComment" no-padding no-margin>{{myGlobalConstants.CARWAY_ROUTE_STANDARDTEXT_COMMENT}}</ion-label>
+						</div>
+						<div class="grid-item routingReport" (click)="editReport(trackIndex)">
+							<ion-label *ngIf="track?.m_sReport" no-padding no-margin>{{track?.m_sReport}}</ion-label>
+							<ion-label *ngIf="!track?.m_sReport" no-padding no-margin>{{myGlobalConstants.CARWAY_ROUTE_STANDARDTEXT_REPORT}}</ion-label>
+						</div>
+
+<!-- 							<div style="float:left;text-align: left;padding:0px;margin:0px;">
+								<div style="padding:0px;margin:0px;">
+									<ion-input readonly text-center no-padding no-margin type="text" style="color:#fcd736;background:none;border:none;font-weight:bold" [ngModel]="track?.m_nDistanceInMeter | distanceKm"></ion-input>
+									<ion-row style="background-color: aquamarine">
+										<ion-input readonly no-padding no-margin type="text" style="width:100px!important;color:rgba(252,215,54,0.8);background-color: aliceblue ;border:none;font-size: xx-small" [ngModel]="track?.m_nDistanceInMeterMaps | distanceKm"></ion-input>
+										
+									</ion-row>
+								</div>	
+								</div>
+-->
+
+						<div class="grid-item routingTotal" >
+								<div style="float:left;text-align: left;padding:0px 0px 0px 5px;margin:0px;">
+									<div style="text-align: center;color:rgba(252,215,54,0.8);">
+										<p>
+												<!--<ion-icon item-left style="padding-right:3px;font-size: 13px;color:rgba(252,215,54,0.8);" name="car"></ion-icon>-->	
+												<input readonly text-center no-padding no-margin type="text" style="color:#fcd736;background:none;width:60px!important;border:none;" [ngModel]="track?.m_nDurationAllSeconds | durationString">
+											</p>
+											<p style="margin:-4px 0 0 0;">
+												( <ion-icon item-left style="font-size: 8px;color:rgba(252,215,54,0.8);" name="car"></ion-icon>	
+												<input readonly text-left no-padding no-margin type="text" style="color:rgba(252,215,54,0.8);background:none;width:40px!important;border:none;font-size: xx-small" [ngModel]="track?.m_nDurationDrivenSeconds | durationString">)
+											</p>
+									</div>
+								</div>
+
+								<div style="float:right;text-align: right;padding:0px;margin:0px;">
+									<div style="text-align: center;color:rgba(252,215,54,0.8);">
+											<p>
+													<!--<ion-icon item-left style="padding-right:3px;font-size: 13px;color:rgba(252,215,54,0.8);" name="car"></ion-icon>-->	
+													<input readonly text-center no-padding no-margin type="text" style="color:#fcd736;background:none;width:60px!important;border:none;" [ngModel]="track?.m_nDistanceAllMeter | distanceKm">
+												</p>
+												<p style="margin:-4px 0 0 0">
+													( <ion-icon item-left style="font-size: 8px;color:rgba(252,215,54,0.8);" name="car"></ion-icon>	
+													<input readonly text-center no-padding no-margin type="text" style="color:rgba(252,215,54,0.8);background:none;width:40px!important;border:none;font-size: xx-small" [ngModel]="track?.m_nDistanceDrivenMeter | distanceKm">)
+												</p>
+									</div>
+								</div>		
+							</div>
+						</div>
+						
+
+						<div padding-left padding-right margin-top margin-bottom style="height:24px;display:flex;justify-content: center;align-items: center;background-color: rgba(221, 221, 221,0.2)">
+							<div style="flex:1;text-align: left;">
+								
+									<button [hidden]="trackIndex>=trackDay?.m_arrayCARWAY_Model_Track_Single.length-1" style="background-color:#555555" ion-fab class="fab-small"  (click)="clickedMerge(trackIndex);">
+											<img style="width:22px;height:22px;color:#fcd736!important" src="assets/svg/merge555.svg">	
+											<!--<ion-icon style="color:#fcd736!important" name="git-network"></ion-icon>-->
+										</button>
+								
+							</div>
+							<!--<button ion-button round color="secondary" style="width:50px;height:20px;" (click)="add(trackIndex)">  <ion-icon name="add"></ion-icon></button>-->
+								<!--<p style="color:#fcd736;font-weight: bold;font-size: larger;">+</p>-->
+								<button ion-fab (click)="addTrack(trackIndex)" class="fab-small">
+										<ion-icon style="color:#fcd736!important" name="add"></ion-icon>
+									  </button>  
+													<!--	<ion-icon icon-small no-margin color="#fcd736" name="add" (click)="add(trackIndex)"></ion-icon>-->
+						<div style="flex:1;"></div>
+					</div>
+				</div>
+			</div>
+			<div style="height:10px"></div>
+			</ion-slide>
+	</ion-slides>
+</ion-content>
+

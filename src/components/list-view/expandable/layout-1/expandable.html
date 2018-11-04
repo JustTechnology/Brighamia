@@ -1,0 +1,38 @@
+<!-- Theme List big image -->
+<ion-content has-header>
+
+
+
+  <ion-grid style="background-color: #424242" no-padding *ngIf="data != null">
+    <ion-row>
+      <ion-col col-12>
+        <ion-list no-margin>
+          <ul no-margin no-padding class="collapsible">
+            <li *ngFor="let group of data.items;">
+              <!-- List big image Header -->
+              <div class="collapsible-header" style="background-color: #424242" (click)="toggleGroup(group)">
+                <div padding-left padding-right style="height:30px;display:flex;justify-content: center;align-items: center;background-color: rgba(221, 221, 221,0.2)">
+                  <ion-icon icon-small no-margin color="#fcd736" name="add" (click)="add(-1)"></ion-icon>
+                      <h3 padding-left item-title>{{group.title}}</h3>
+                 </div>
+              </div>
+              <!-- List big image Body -->
+              <div class="item-accordion" [ngClass]="{'active': isGroupShown(group) }" [hidden]="!isGroupShown(group)">
+                <ion-item transparent no-lines *ngFor="let item of group.items;" (click)="onEvent('onItemClick', item.title, $event)">
+                  <ion-thumbnail item-start>
+                    <img [src]="item.image" alt="{{item.title}}" />
+                  </ion-thumbnail>
+                  <h2 subitem-title>{{item.title}}</h2>
+                  <h3 subitem-subtitle>{{item.description}}</h3>
+                  <ion-icon item-end icon-medium><i class="icon {{item.iconPlay}}"></i></ion-icon>
+                </ion-item>
+              </div>
+              <!--end-->
+            </li>
+          </ul>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

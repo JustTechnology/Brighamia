@@ -1,0 +1,50 @@
+tab-page-2 {
+    .accordion-list {
+       background: color($colors, primary);
+        height: 100%;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+    .SecondList{
+
+    padding: 0px !important;
+    margin: 0px !important;
+    border: 0px !important;
+    
+    }
+    .child-item{
+        padding: 0px !important;
+        margin: 0px !important;
+        border: 0px !important;
+        
+        }
+    .section {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+    .section-active {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+    .child {
+        border: 1px solid !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        border: 0px !important;
+    }
+    .label {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+    .list {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+
+    .noback {
+        background: color($colors, primary) !important;
+        background-color: color($colors, primary) !important;
+
+        
+    }
+}

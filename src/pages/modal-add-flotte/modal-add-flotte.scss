@@ -1,0 +1,70 @@
+page-modal-add-flotte 
+{
+	.kfz-searchable-icon
+	{
+		color:#fcd736;
+		margin-bottom:7px;
+		padding-left:16px;
+		margin-right:-10px;
+		padding-top:5px;
+	} 
+	.kfz-searchable-item
+	{
+		padding:0px;
+		background-color:rgba(85, 85, 85, 0.6);
+		border-color: #fcd736;
+
+	}
+
+
+
+    ion-content > .scroll-content
+    {
+        padding-bottom: 100px;
+    }
+    
+        .item-data
+        {
+          border-radius: $var-border-radius;
+        }
+        .item-cover 
+        {
+          width: 0;
+          height: 0;
+          }
+          .content{ background: transparent; }
+      
+            .overlay {
+              position: fixed;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+              opacity: .8;
+              background-color: #333;
+            }
+            .modal_content {
+              position: absolute;
+              top: 20px;
+              left: 0;
+              right: 0;
+              width: 90%;
+              height: auto;
+              z-index: 100;
+              margin: 0 auto;
+              padding: 10px 10px 10px 10px;
+              background: theme-colors('mainColors', 'accent') !important;
+              border-radius: 5px;
+              box-shadow: 0 2px 3px rgba(51, 51, 51, .35);
+              box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              -webkit-box-sizing: border-box;
+              overflow: hidden;
+            }
+      
+            .footer-button
+            {
+                color:#333333!important;
+            }  
+      
+}

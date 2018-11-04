@@ -1,0 +1,96 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Einstellungen</ion-title>
+   <!-- <ion-buttons left>
+        <button ion-button icon-only (click)="unload()">
+            <ion-icon name="arrow-back"></ion-icon>
+        </button>
+    </ion-buttons>-->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  	<ion-item color="accent">
+      <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+      <ion-label floating class="smallfont">Gewünschte Genauigkeit (desiredAccuracy) [0,10,100,1000]:</ion-label>
+      <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nDesiredAccuracy"></ion-input>
+  </ion-item>
+
+    <ion-item color="accent">
+      <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+      <ion-label floating class="smallfont">Radius, indem nicht getrackt wird (StationaryRadius) [m]:</ion-label>
+      <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nStationaryRadius"></ion-input>
+    </ion-item>
+  
+    <ion-item color="accent">
+        <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+        <ion-label floating class="smallfont">Radius, indem Trigger augeführt wird (DistanceFilter) [m]:</ion-label>
+        <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nDistanceFilter"></ion-input>
+      </ion-item>
+  
+      <ion-item color="accent">
+          <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+          <ion-label class="smallfont">Akustische Geräusche bei Lifecycle Events (Debug) [0/1]:</ion-label>
+          <ion-toggle  [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_bDebug"></ion-toggle>
+        </ion-item>
+
+        <ion-item color="accent">
+            <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+            <ion-label floating class="smallfont">A:Minimum Location updates (Interval) [ms]:</ion-label>
+            <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nInterval"></ion-input>
+          </ion-item>
+          
+          <ion-item color="accent" >
+              <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+              <ion-label floating class="smallfont">A:Titel der Notification (NotificationTitle)</ion-label>
+              <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_sNotificationTitle"></ion-input>
+            </ion-item>
+            
+            <ion-item color="accent" >
+                <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" ></ion-icon>
+                <ion-label floating class="smallfont">Text der Notification (NotificationText)</ion-label>
+                <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_sNotificationText"></ion-input>
+             </ion-item>
+          
+              <ion-item color="accent">
+                  <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                  <ion-label class="smallfont">StopOnTerminate</ion-label>
+                  <ion-toggle required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_bStopOnTerminate"></ion-toggle>
+                </ion-item>
+          
+                <ion-item color="accent">
+                    <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                    <ion-label class="smallfont">StartOnBoot</ion-label>
+                    <ion-toggle required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_bStartOnBoot"></ion-toggle>
+                  </ion-item>
+
+                  <ion-item color="accent">
+                    <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                    <ion-label class="smallfont">Zeige immer aktuelle Position</ion-label>
+                    <ion-toggle required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_bShowAlwaysAktPosition"></ion-toggle>
+                  </ion-item>
+
+                  <ion-item color="accent">
+                      <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                      <ion-label floating class="smallfont">NotificationIconColor</ion-label>
+                      <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_sNotificationIconColor"></ion-input>
+                    </ion-item>
+
+                    <ion-item color="accent">
+                      <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                      <ion-label floating class="smallfont">Geolocation Reload [ses]:</ion-label>
+                      <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nReloadGeolocationInSeconds"></ion-input>
+                    </ion-item>
+
+                    <ion-item color="accent">
+                      <ion-icon style="padding-top:22px;"no-margin icon-small item-start name="car" color="secondary"></ion-icon>
+                      <ion-label floating class="smallfont">Geolocation Alive [ses]:</ion-label>
+                      <ion-input required type="text" [(ngModel)]="this.m_CARWAY_Model_Settings_Provider.myLocationSettings.m_nPositionDetectionAliveCount"></ion-input>
+                    </ion-item>
+                    
+                
+</ion-content>

@@ -1,0 +1,64 @@
+<ion-content>
+ 
+
+  <ion-list class="accordion-list"> 
+    <!-- First Level --> 
+    <ion-list-header *ngFor="let item of information; let i = index" no-lines no-padding>
+      <!-- Toggle Button --> 
+     
+      <button ion-item (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}">
+        <!--<ion-icon item-left name="car" *ngIf="!item.open"></ion-icon>
+        <ion-icon item-left name="icon-minus" *ngIf="item.open"></ion-icon>-->
+        <ion-icon item-left>
+            <i icon-small class="icon"
+            [ngClass]="{'icon-car': item.favorite, 'icon-car': !item.favorite}"></i>
+          </ion-icon>
+          <p item-title>{{ item.name }} </p>
+           <p item-title-sub>{{ item.name }} </p>
+        
+      </button>  
+      
+ 
+      <ion-list *ngIf="item.children && item.open" no-lines no-padding>
+        <!-- Second Level -->
+        <!--<ion-list-header *ngFor="let child of item.children; let j = index" no-lines no-padding>-->
+          <!-- Toggle Button -->
+          <ul style="padding-left:5em">
+
+          <li  *ngFor="let child of item.children; let j = index" >
+          <button (click)="toggleItem(i, j)" *ngIf="child.children"  class="noback" detail-none no-padding> <p>{{ child.name }}</p>
+          <!--<ion-icon item-left name="open" *ngIf="!child.open"></ion-icon>
+            <ion-icon item-left name="close" *ngIf="child.open"></ion-icon>-->
+           
+            <!--<p item-subtitle style="padding-left:4em"><i icon-small class="icon"
+              [ngClass]="{'icon-arrow-right': item.favorite, 'icon-arrow-right': !item.favorite}"></i>{{ child.name }}</p>-->
+          </button>
+          
+          <!-- Direct Add Button as Fallback -->
+          <ion-item *ngIf="!child.children" ion-item detail-none class="child-item" text-wrap>
+              <p item-subtitle>{{ child.name }}</p>
+            <p item-subtitle-sub text-lowercase>{{ child.information }}</p>
+          
+          </ion-item>
+        
+      <ion-list *ngIf="child.children && child.open">
+            <ion-item *ngFor="let item of child.children; let k = index" detail-none class="child-item" text-wrap>
+              <p>{{ item.name }}</p>
+              <p text-lowercase>{{ item.information }}</p>
+             
+            </ion-item>
+          </ion-list>
+        
+      </li>
+
+    </ul>
+    <ion-item>
+        <ion-label color="primary" fixed>Fahrt:</ion-label>
+        <ion-input type="text" placeholder="Ihre Fahrt"></ion-input>
+        </ion-item>
+      <!--</ion-list-header>-->
+      </ion-list>
+      
+    </ion-list-header>
+  </ion-list>
+</ion-content>
